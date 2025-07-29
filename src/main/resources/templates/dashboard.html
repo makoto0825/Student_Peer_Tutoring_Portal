@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <title>ダッシュボード</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+      }
+
+      .header {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 20px 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+      }
+
+      .logo {
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        text-decoration: none;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .logout-button {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+      }
+
+      .logout-button:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+      }
+
+      .main-content {
+        max-width: 1200px;
+        margin: 50px auto;
+        padding: 0 20px;
+      }
+
+      .welcome-card {
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .welcome-card h1 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 36px;
+        font-weight: 300;
+      }
+
+      .welcome-card p {
+        color: #666;
+        font-size: 18px;
+        line-height: 1.6;
+        margin-bottom: 30px;
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+      }
+
+      .dashboard-card {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .dashboard-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .dashboard-card h3 {
+        color: #333;
+        margin-bottom: 15px;
+        font-size: 24px;
+      }
+
+      .dashboard-card p {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      .card-button {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: transform 0.2s ease;
+      }
+
+      .card-button:hover {
+        transform: translateY(-2px);
+      }
+
+      .user-info {
+        color: white;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <nav class="nav-container">
+        <a href="/dashboard" class="logo">Student Peer Tutoring Portal</a>
+        <div class="nav-links">
+          <a href="/dashboard">ダッシュボード</a>
+          <a href="/home">ホーム</a>
+          <div class="user-info">
+            ようこそ、<span th:text="${#authentication.principal.username}"
+              >ユーザー</span
+            >さん！
+            <form th:action="@{/logout}" method="post" style="display: inline">
+              <button type="submit" class="logout-button">ログアウト</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="main-content">
+      <div class="welcome-card">
+        <h1>ダッシュボード</h1>
+        <p>
+          学生ピアチュータリングポータルへようこそ！<br />
+          あなたの学習をサポートするためのツールをご利用ください。
+        </p>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <h3>📚 チュータリングセッション</h3>
+          <p>
+            利用可能なチュータリングセッションを探して、学習をサポートしてもらいましょう。
+          </p>
+          <a href="#" class="card-button">セッションを探す</a>
+        </div>
+
+        <div class="dashboard-card">
+          <h3>⚙️ プロフィール設定</h3>
+          <p>
+            あなたのプロフィール情報を更新して、より良いマッチングを実現しましょう。
+          </p>
+          <a href="#" class="card-button">プロフィール編集</a>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
