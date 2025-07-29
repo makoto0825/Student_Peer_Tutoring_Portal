@@ -16,12 +16,12 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
     
     public User registerUser(String username, String password, String email, String firstName, String lastName, int role) {
-        // ユーザー名とメールアドレスの重複チェック
+        // Check for duplicate username and email address
         if (userRepository.existsByUsername(username)) {
-            throw new RuntimeException("このユーザー名は既に使用されています");
+            throw new RuntimeException("This username is already in use");
         }
         if (userRepository.existsByEmail(email)) {
-            throw new RuntimeException("このメールアドレスは既に使用されています");
+            throw new RuntimeException("This email address is already in use");
         }
         String encodedPassword = passwordEncoder.encode(password);
         User user = new User(username, encodedPassword, email, firstName, lastName);

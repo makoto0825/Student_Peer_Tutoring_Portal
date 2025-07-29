@@ -32,7 +32,7 @@ public class User implements UserDetails {
     private String lastName;
     
     @Column(name = "role", nullable = false)
-    private int role = 1; // 1: student, 2: チューター
+    private int role = 1; // 1: student, 2: tutor
     
     @Column(name = "enabled", nullable = false)
     private boolean enabled = true;
@@ -40,7 +40,7 @@ public class User implements UserDetails {
 
     public User() {}
     
-    // コンストラクタ
+    // Constructor
     public User(String username, String password, String email, String firstName, String lastName) {
         this.username = username;
         this.password = password;
@@ -49,7 +49,7 @@ public class User implements UserDetails {
         this.lastName = lastName;
     }
     
-    // UserDetails インターフェースの実装
+    // UserDetails interface implementation
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         String authority = (role == 2) ? "ROLE_TUTOR" : "ROLE_STUDENT";

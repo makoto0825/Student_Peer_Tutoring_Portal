@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
   <head>
-    <title>ユーザー登録</title>
+    <title>User Registration</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
@@ -124,7 +124,7 @@
         position: relative;
         width: 60px;
         height: 34px;
-        background: #e74c3c; /* 学生は赤 */
+        background: #e74c3c; /* Student is red */
         border-radius: 34px;
         cursor: pointer;
         transition: background 0.3s;
@@ -154,7 +154,7 @@
   <body>
     <div class="register-container">
       <div class="register-header">
-        <h1>ユーザー登録</h1>
+        <h1>User Registration</h1>
       </div>
 
       <div
@@ -162,7 +162,7 @@
         class="error-message"
         th:text="${errorMessage}"
       >
-        エラーメッセージ
+        Error message
       </div>
 
       <div
@@ -170,60 +170,60 @@
         class="error-message"
         style="color: #27ae60; background-color: #d5f4e6; border-color: #a8e6cf"
       >
-        <span th:text="${successMessage}">登録完了メッセージ</span>
+        <span th:text="${successMessage}">Registration success message</span>
       </div>
 
       <form th:action="@{/register}" method="post">
         <div class="form-group">
-          <label for="username">ユーザー名:</label>
+          <label for="username">Username:</label>
           <input type="text" id="username" name="username" required />
         </div>
 
         <div class="form-group">
-          <label for="email">メールアドレス:</label>
+          <label for="email">Email Address:</label>
           <input type="email" id="email" name="email" required />
         </div>
 
         <div class="form-row">
           <div class="form-group">
-            <label for="firstName">名前:</label>
+            <label for="firstName">First Name:</label>
             <input type="text" id="firstName" name="firstName" required />
           </div>
 
           <div class="form-group">
-            <label for="lastName">姓:</label>
+            <label for="lastName">Last Name:</label>
             <input type="text" id="lastName" name="lastName" required />
           </div>
         </div>
 
         <div class="form-group">
-          <label for="password">パスワード:</label>
+          <label for="password">Password:</label>
           <input type="password" id="password" name="password" required />
         </div>
 
         <div class="form-group">
-          <label>区分:</label>
+          <label>Role:</label>
           <div class="toggle-switch">
-            <span id="roleTextLeft" style="margin-right: 10px">学生</span>
+            <span id="roleTextLeft" style="margin-right: 10px">Student</span>
             <input type="checkbox" id="roleSwitch" name="roleSwitch" />
             <label for="roleSwitch" class="switch-label">
               <span class="switch-switch"></span>
             </label>
-            <span id="roleTextRight" style="margin-left: 10px">チューター</span>
+            <span id="roleTextRight" style="margin-left: 10px">Tutor</span>
             <input type="hidden" id="role" name="role" value="1" />
           </div>
         </div>
 
-        <button type="submit" class="register-button">登録</button>
+        <button type="submit" class="register-button">Register</button>
       </form>
 
       <div class="login-link">
-        <a th:href="@{/login}">既にアカウントをお持ちですか？ログイン</a>
+        <a th:href="@{/login}">Already have an account? Login</a>
       </div>
     </div>
 
     <script>
-      // 成功メッセージが表示された場合、フォームをクリアする
+      // Clear the form if success message is displayed
       document.addEventListener('DOMContentLoaded', function () {
         const successMessage = document.querySelector(
           '[th\\:if="${successMessage}"]'
@@ -242,12 +242,12 @@
       roleSwitch.addEventListener('change', function () {
         if (this.checked) {
           roleInput.value = 2;
-          roleTextLeft.textContent = '学生';
-          roleTextRight.textContent = 'チューター';
+          roleTextLeft.textContent = 'Student';
+          roleTextRight.textContent = 'Tutor';
         } else {
           roleInput.value = 1;
-          roleTextLeft.textContent = '学生';
-          roleTextRight.textContent = 'チューター';
+          roleTextLeft.textContent = 'Student';
+          roleTextRight.textContent = 'Tutor';
         }
       });
     </script>

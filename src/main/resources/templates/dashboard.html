@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
   <head>
-    <title>ダッシュボード</title>
+    <title>Dashboard</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
@@ -155,14 +155,14 @@
       <nav class="nav-container">
         <a href="/dashboard" class="logo">Student Peer Tutoring Portal</a>
         <div class="nav-links">
-          <a href="/dashboard">ダッシュボード</a>
-          <a href="/home">ホーム</a>
+          <a href="/dashboard">Dashboard</a>
+          <a href="/home">Home</a>
           <div class="user-info">
-            ようこそ、<span th:text="${#authentication.principal.username}"
-              >ユーザー</span
-            >さん！
+            Welcome, <span th:text="${#authentication.principal.username}"
+              >User</span
+            >!
             <form th:action="@{/logout}" method="post" style="display: inline">
-              <button type="submit" class="logout-button">ログアウト</button>
+              <button type="submit" class="logout-button">Logout</button>
             </form>
           </div>
         </div>
@@ -171,28 +171,28 @@
 
     <main class="main-content">
       <div class="welcome-card">
-        <h1>ダッシュボード</h1>
+        <h1>Dashboard</h1>
         <p>
-          学生ピアチュータリングポータルへようこそ！<br />
-          あなたの学習をサポートするためのツールをご利用ください。
+          Welcome to the Student Peer Tutoring Portal!<br />
+          Please use the tools to support your learning.
         </p>
       </div>
 
       <div class="dashboard-grid">
         <div class="dashboard-card">
-          <h3>📚 チュータリングセッション</h3>
+          <h3>📚 Tutoring Sessions</h3>
           <p>
-            利用可能なチュータリングセッションを探して、学習をサポートしてもらいましょう。
+            Find available tutoring sessions and get support for your learning.
           </p>
-          <a href="#" class="card-button">セッションを探す</a>
+          <a href="#" class="card-button">Find Sessions</a>
         </div>
 
         <div class="dashboard-card">
-          <h3>⚙️ プロフィール設定</h3>
+          <h3>⚙️ Profile Settings</h3>
           <p>
-            あなたのプロフィール情報を更新して、より良いマッチングを実現しましょう。
+            Update your profile information to achieve better matching.
           </p>
-          <a href="#" class="card-button">プロフィール編集</a>
+          <a href="#" class="card-button">Edit Profile</a>
         </div>
       </div>
     </main>

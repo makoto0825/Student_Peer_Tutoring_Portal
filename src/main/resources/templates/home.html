@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
   <head>
-    <title>ホーム</title>
+    <title>Home</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
@@ -139,16 +139,16 @@
       <nav class="nav-container">
         <a href="/" class="logo">Student Peer Tutoring Portal</a>
         <div class="nav-links">
-          <a href="/home">ホーム</a>
-          <a href="/login">ログイン</a>
-          <a href="/register">新規登録</a>
+          <a href="/home">Home</a>
+          <a href="/login">Login</a>
+          <a href="/register">New Registration</a>
           <div
             class="user-info"
             th:if="${#authentication.principal != 'anonymousUser'}"
           >
-            ようこそ、<span th:text="${#authentication.principal.username}"
-              >ユーザー</span
-            >さん！
+            Welcome, <span th:text="${#authentication.principal.username}"
+              >User</span
+            >!
             <form th:action="@{/logout}" method="post" style="display: inline">
               <button
                 type="submit"
@@ -160,7 +160,7 @@
                   margin-left: 10px;
                 "
               >
-                ログアウト
+                Logout
               </button>
             </form>
           </div>
@@ -170,30 +170,30 @@
 
     <main class="main-content">
       <div class="welcome-card">
-        <h1>学生ピアチュータリングポータルへようこそ</h1>
+        <h1>Welcome to Student Peer Tutoring Portal</h1>
         <p>
-          このプラットフォームでは、学生同士がお互いに学び合い、知識を共有することができます。
+          This platform allows students to learn from each other and share knowledge.
         </p>
-        <a href="/login" class="cta-button">ログインして始める</a>
+        <a href="/login" class="cta-button">Login to Get Started</a>
       </div>
 
       <div class="features-grid">
         <div class="feature-card">
-          <h3>📚 学習支援</h3>
+          <h3>📚 Learning Support</h3>
           <p>
-            様々な科目のチュータリングセッションに参加して、理解を深めましょう。
+            Join tutoring sessions in various subjects to deepen your understanding.
           </p>
         </div>
 
         <div class="feature-card">
-          <h3>👥 ピア学習</h3>
-          <p>同じ学生として、お互いの経験を共有し、一緒に成長しましょう。</p>
+          <h3>👥 Peer Learning</h3>
+          <p>Share experiences as fellow students and grow together.</p>
         </div>
 
         <div class="feature-card">
-          <h3>🎯 目標達成</h3>
+          <h3>🎯 Goal Achievement</h3>
           <p>
-            個別の学習目標を設定し、チューターと一緒に達成を目指しましょう。
+            Set individual learning goals and work with tutors to achieve them.
           </p>
         </div>
       </div>
