@@ -156,11 +156,9 @@
         <a href="/dashboard" class="logo">Student Peer Tutoring Portal</a>
         <div class="nav-links">
           <a href="/dashboard">Dashboard</a>
-          <a href="/home">Home</a>
           <div class="user-info">
-            Welcome, <span th:text="${#authentication.principal.username}"
-              >User</span
-            >!
+            Welcome,
+            <span th:text="${#authentication.principal.username}">User</span>!
             <form th:action="@{/logout}" method="post" style="display: inline">
               <button type="submit" class="logout-button">Logout</button>
             </form>
@@ -189,9 +187,7 @@
 
         <div class="dashboard-card">
           <h3>⚙️ Profile Settings</h3>
-          <p>
-            Update your profile information to achieve better matching.
-          </p>
+          <p>Update your profile information to achieve better matching.</p>
           <a href="#" class="card-button">Edit Profile</a>
         </div>
       </div>

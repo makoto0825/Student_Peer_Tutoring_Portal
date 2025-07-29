@@ -146,9 +146,8 @@
             class="user-info"
             th:if="${#authentication.principal != 'anonymousUser'}"
           >
-            Welcome, <span th:text="${#authentication.principal.username}"
-              >User</span
-            >!
+            Welcome,
+            <span th:text="${#authentication.principal.username}">User</span>!
             <form th:action="@{/logout}" method="post" style="display: inline">
               <button
                 type="submit"
@@ -172,7 +171,8 @@
       <div class="welcome-card">
         <h1>Welcome to Student Peer Tutoring Portal</h1>
         <p>
-          This platform allows students to learn from each other and share knowledge.
+          This platform allows students to learn from each other and share
+          knowledge.
         </p>
         <a href="/login" class="cta-button">Login to Get Started</a>
       </div>
@@ -181,7 +181,8 @@
         <div class="feature-card">
           <h3>📚 Learning Support</h3>
           <p>
-            Join tutoring sessions in various subjects to deepen your understanding.
+            Join tutoring sessions in various subjects to deepen your
+            understanding.
           </p>
         </div>
 
