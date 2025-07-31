@@ -134,6 +134,10 @@ body {
   box-sizing: border-box;
 }
 
+input {
+  box-sizing: border-box;
+}
+
 .form-group input:focus {
   outline: none;
   border-color: #667eea;

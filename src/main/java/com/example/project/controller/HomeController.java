@@ -31,4 +31,10 @@ public class HomeController {
     public String admin() {
         return "admin";
     }
-} 
+
+    @GetMapping("/tutor-profile")
+    public String tutorProfile() {
+        return "tutor-profile";
+    }
+
+}
