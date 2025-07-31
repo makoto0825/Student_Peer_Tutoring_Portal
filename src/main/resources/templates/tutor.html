@@ -1,26 +1,42 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
   <head>
-    <title>Admin - Tutor Management</title>
+    <title>Tutor Home</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+        margin: 0;
+        padding: 0;
+      }
+
       .welcome-card {
         background: white;
-        padding: 40px;
+        padding: 30px;
         border-radius: 15px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         margin: 30px auto;
-        text-align: center;
         max-width: 900px;
-        box-sizing: border-box;
+        text-align: center;
+      }
+
+      .welcome-card h1 {
+        font-size: 28px;
+        color: #333;
+        margin-bottom: 15px;
+      }
+
+      .welcome-card p {
+        font-size: 16px;
+        color: #666;
       }
 
       /* Table container */
       .table-container {
         max-width: 900px;
-        box-sizing: border-box;
         margin: 30px auto;
         background: white;
         padding: 20px;
@@ -57,74 +73,58 @@
         color: #555;
       }
 
-      .status-verified {
-        color: green;
-        font-weight: bold;
-      }
-
-      .status-unverified {
-        color: red;
-        font-weight: bold;
+      /* No sessions message */
+      .no-sessions {
+        text-align: center;
+        padding: 20px;
+        color: #888;
+        font-style: italic;
       }
     </style>
   </head>
   <body>
     <div th:replace="fragments/header :: site-header"></div>
     <main class="main-content">
+      <!-- Welcome section -->
       <div class="welcome-card">
-        <h1 class="heading-1">Tutor Management</h1>
-        <p>View and manage tutor verification status below.</p>
+        <h1>Welcome, Tutor!</h1>
+        <p>Here are your upcoming tutoring sessions.</p>
       </div>
 
+      <!-- Sessions table -->
       <div class="table-container">
         <table>
           <thead>
             <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
+              <th>Student Name</th>
               <th>Email</th>
-              <th>Verified Status</th>
-              <th>Action</th>
+              <th>Date & Time</th>
             </tr>
           </thead>
           <tbody>
-            <!-- Verified tutor -->
+            <!-- Dummy data -->
             <tr>
-              <td>John</td>
-              <td>Smith</td>
-              <td>john.smith@example.com</td>
-              <td class="status-verified">Verified</td>
-              <td></td>
+              <td>Emily Carter</td>
+              <td>emily.carter@example.com</td>
+              <td>2025-08-01, 9:00 AM - 10:00 AM</td>
             </tr>
-
-            <!-- Unverified tutor -->
             <tr>
-              <td>Mary</td>
-              <td>Johnson</td>
-              <td>mary.johnson@example.com</td>
-              <td class="status-unverified">Unverified</td>
-              <td><button class="button size-sm">Verify</button></td>
+              <td>Michael Lee</td>
+              <td>michael.lee@example.com</td>
+              <td>2025-08-02, 11:00 AM - 12:00 PM</td>
             </tr>
-
-            <!-- Verified tutor -->
             <tr>
-              <td>Alex</td>
-              <td>Brown</td>
-              <td>alex.brown@example.com</td>
-              <td class="status-verified">Verified</td>
-              <td></td>
-            </tr>
-
-            <!-- Unverified tutor -->
-            <tr>
-              <td>Sara</td>
-              <td>Miller</td>
-              <td>sara.miller@example.com</td>
-              <td class="status-unverified">Unverified</td>
-              <td><button class="button size-sm">Verify</button></td>
+              <td>Sophia Brown</td>
+              <td>sophia.brown@example.com</td>
+              <td>2025-08-03, 2:00 PM - 3:00 PM</td>
             </tr>
           </tbody>
         </table>
+
+        <!-- Show message if no sessions (hidden by default) -->
+        <div class="no-sessions" style="display: none">
+          No upcoming sessions scheduled.
+        </div>
       </div>
     </main>
   </body>
