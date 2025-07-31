@@ -4,71 +4,8 @@
     <title>Dashboard</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <style>
-      body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        margin: 0;
-        padding: 0;
-        min-height: 100vh;
-      }
-
-      .header {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        padding: 20px 0;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      }
-
-      .nav-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 20px;
-      }
-
-      .logo {
-        color: white;
-        font-size: 24px;
-        font-weight: bold;
-        text-decoration: none;
-      }
-
-      .nav-links {
-        display: flex;
-        gap: 20px;
-        align-items: center;
-      }
-
-      .nav-links a {
-        color: white;
-        text-decoration: none;
-        padding: 10px 15px;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-      }
-
-      .nav-links a:hover {
-        background-color: rgba(255, 255, 255, 0.2);
-      }
-
-      .logout-button {
-        background: rgba(255, 255, 255, 0.2);
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-        transition: background-color 0.3s ease;
-      }
-
-      .logout-button:hover {
-        background-color: rgba(255, 255, 255, 0.3);
-      }
-
       .main-content {
         max-width: 1200px;
         margin: 50px auto;
@@ -143,30 +80,10 @@
       .card-button:hover {
         transform: translateY(-2px);
       }
-
-      .user-info {
-        color: white;
-        font-size: 16px;
-      }
     </style>
   </head>
   <body>
-    <header class="header">
-      <nav class="nav-container">
-        <a href="/dashboard" class="logo">Student Peer Tutoring Portal</a>
-        <div class="nav-links">
-          <a href="/dashboard">Dashboard</a>
-          <div class="user-info">
-            Welcome,
-            <span th:text="${#authentication.principal.username}">User</span>!
-            <form th:action="@{/logout}" method="post" style="display: inline">
-              <button type="submit" class="logout-button">Logout</button>
-            </form>
-          </div>
-        </div>
-      </nav>
-    </header>
-
+    <div th:replace="fragments/header :: site-header"></div>
     <main class="main-content">
       <div class="welcome-card">
         <h1>Dashboard</h1>

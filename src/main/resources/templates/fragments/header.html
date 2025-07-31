@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head></head>
+  <body>
+    <header class="header" th:fragment="site-header">
+      <nav class="nav-container">
+        <a href="/" class="logo">Student Peer Tutoring Portal</a>
+        <div class="nav-links">
+          <a href="/home">Home</a>
+          <!-- Show Login/Register only for anonymous users -->
+          <a
+            href="/login"
+            th:if="${#authentication.principal == 'anonymousUser'}"
+            >Login</a
+          >
+          <a
+            href="/register"
+            th:if="${#authentication.principal == 'anonymousUser'}"
+            >Register</a
+          >
+
+          <!-- Show user info and logout for signed-in users -->
+          <div
+            class="user-info"
+            th:if="${#authentication.principal != 'anonymousUser'}"
+          >
+            <div>
+              <span>Welcome,</span>
+              <span th:text="${#authentication.principal.username}">User</span>
+              <span>!</span>
+            </div>
+            <form th:action="@{/logout}" method="post" style="display: inline">
+              <button type="submit" class="logout-button">Logout</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </header>
+  </body>
+</html>
