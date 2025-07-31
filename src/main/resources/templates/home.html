@@ -6,28 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <style>
-      .welcome-card {
-        background: white;
-        padding: 40px;
-        border-radius: 15px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-        margin-bottom: 30px;
-      }
-
-      .welcome-card h1 {
-        color: #333;
-        margin-bottom: 20px;
-        font-size: 36px;
-        font-weight: 300;
-      }
-
-      .welcome-card p {
-        color: #666;
-        font-size: 18px;
-        line-height: 1.6;
-        margin-bottom: 30px;
-      }
-
       .features-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -68,7 +46,7 @@
     <div th:replace="fragments/header :: site-header"></div>
     <main class="main-content">
       <div class="welcome-card">
-        <h1>Welcome to Student Peer Tutoring Portal</h1>
+        <h1 class="heading-1">Welcome to Student Peer Tutoring Portal</h1>
         <p>
           This platform allows students to learn from each other and share
           knowledge.

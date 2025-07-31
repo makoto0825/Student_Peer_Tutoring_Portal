@@ -42,4 +42,14 @@ public class HomeController {
         return "tutor-profile";
     }
 
+    @GetMapping("/student")
+    public String student() {
+        return "student";
+    }
+
+    @GetMapping("/session-booking")
+    public String sessionBooking(Model model) {
+        // Add any necessary attributes to the model
+        return "session-booking";
+    }
 }
