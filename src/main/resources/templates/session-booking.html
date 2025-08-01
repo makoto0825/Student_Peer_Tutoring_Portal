@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <title>Book Session</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <style>
+      .form-card {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        margin: 30px auto;
+        max-width: 500px;
+      }
+
+      .form-field {
+        margin-bottom: 20px;
+      }
+
+      .form-field label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #555;
+      }
+
+      .form-field select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+      }
+
+      /* Submit button */
+      .submit-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-2px);
+      }
+
+      /* Success/Error messages */
+      .message {
+        margin-top: 15px;
+        font-size: 14px;
+        text-align: center;
+      }
+
+      .success {
+        color: green;
+      }
+
+      .error {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div th:replace="fragments/header :: site-header"></div>
+    <main class="main-content">
+      <div class="form-card">
+        <h1 class="heading-1">Book a Session</h1>
+
+        <!-- Department -->
+        <div class="form-field mt-20">
+          <label for="departmentSelect">Department</label>
+          <select id="departmentSelect" onchange="updateTutors()">
+            <option value="">Select Department</option>
+            <option value="Mathematics">Mathematics</option>
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+          </select>
+        </div>
+
+        <!-- Tutor -->
+        <div class="form-field">
+          <label for="tutorSelect">Tutor</label>
+          <select id="tutorSelect">
+            <option value="">Select Tutor (or Anyone)</option>
+            <option value="anyone">Anyone</option>
+            <!-- Tutors populated dynamically based on department -->
+          </select>
+        </div>
+
+        <!-- Timeslot -->
+        <div class="form-field">
+          <label for="timeslotSelect">Timeslot</label>
+          <select id="timeslotSelect">
+            <option value="">Select Timeslot</option>
+            <option value="2025-08-01 09:00 AM">2025-08-01 09:00 AM</option>
+            <option value="2025-08-01 10:00 AM">2025-08-01 10:00 AM</option>
+            <option value="2025-08-01 11:00 AM">2025-08-01 11:00 AM</option>
+            <option value="2025-08-01 01:00 PM">2025-08-01 01:00 PM</option>
+            <option value="2025-08-01 02:00 PM">2025-08-01 02:00 PM</option>
+            <option value="2025-08-01 03:00 PM">2025-08-01 03:00 PM</option>
+          </select>
+        </div>
+
+        <!-- Submit button -->
+        <button class="submit-btn" onclick="bookSession()">Book Session</button>
+
+        <div class="message" id="message"></div>
+      </div>
+    </main>
+
+    <script>
+      // Dummy tutors per department
+      const tutorsByDepartment = {
+        Mathematics: ["John Smith", "Alice Davis"],
+        Physics: ["Mary Johnson", "Robert Wilson"],
+        Chemistry: ["Alex Brown", "Sophia Clark"],
+      };
+
+      // Dummy booked sessions for validation
+      const bookedSessions = [
+        "2025-08-01 09:00 AM", // Already booked slot
+        "2025-08-01 02:00 PM",
+      ];
+
+      function updateTutors() {
+        const department = document.getElementById("departmentSelect").value;
+        const tutorSelect = document.getElementById("tutorSelect");
+
+        // Clear existing options (except 'Anyone')
+        tutorSelect.innerHTML = `<option value="">Select Tutor (or Anyone)</option>
+                                 <option value="anyone">Anyone</option>`;
+
+        if (department && tutorsByDepartment[department]) {
+          tutorsByDepartment[department].forEach((tutor) => {
+            const option = document.createElement("option");
+            option.value = tutor;
+            option.textContent = tutor;
+            tutorSelect.appendChild(option);
+          });
+        }
+      }
+
+      function bookSession() {
+        const department = document.getElementById("departmentSelect").value;
+        const tutor = document.getElementById("tutorSelect").value;
+        const timeslot = document.getElementById("timeslotSelect").value;
+        const messageEl = document.getElementById("message");
+
+        messageEl.textContent = "";
+
+        if (!department || !tutor || !timeslot) {
+          messageEl.textContent = "Please select all fields.";
+          messageEl.className = "message error";
+          return;
+        }
+
+        // Check if timeslot is already booked
+        if (bookedSessions.includes(timeslot)) {
+          messageEl.textContent = "You already have a session at this time.";
+          messageEl.className = "message error";
+          return;
+        }
+
+        // Add to booked sessions (simulate saving)
+        bookedSessions.push(timeslot);
+        messageEl.textContent = "Session booked successfully!";
+        messageEl.className = "message success";
+
+        // Reset form
+        document.getElementById("departmentSelect").value = "";
+        document.getElementById(
+          "tutorSelect"
+        ).innerHTML = `<option value="">Select Tutor (or Anyone)</option>
+                                                            <option value="anyone">Anyone</option>`;
+        document.getElementById("timeslotSelect").value = "";
+      }
+    </script>
+  </body>
+</html>

@@ -26,4 +26,30 @@ public class HomeController {
     public String dashboard() {
         return "dashboard";
     }
-} 
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "admin";
+    }
+
+    @GetMapping("/tutor")
+    public String tutor() {
+        return "tutor";
+    }
+
+    @GetMapping("/tutor-profile")
+    public String tutorProfile() {
+        return "tutor-profile";
+    }
+
+    @GetMapping("/student")
+    public String student() {
+        return "student";
+    }
+
+    @GetMapping("/session-booking")
+    public String sessionBooking(Model model) {
+        // Add any necessary attributes to the model
+        return "session-booking";
+    }
+}

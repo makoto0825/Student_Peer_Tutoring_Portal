@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <title>Tutor Home</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <style>
+      /* No sessions message */
+      .no-sessions {
+        text-align: center;
+        padding: 20px;
+        color: #888;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div th:replace="fragments/header :: site-header"></div>
+    <main class="main-content">
+      <!-- Welcome section -->
+      <div class="welcome-card">
+        <h1 class="heading-1">Welcome, Tutor!</h1>
+        <p>Here are your upcoming tutoring sessions.</p>
+      </div>
+
+      <!-- Sessions table -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Email</th>
+              <th>Date & Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Dummy data -->
+            <tr>
+              <td>Emily Carter</td>
+              <td>emily.carter@example.com</td>
+              <td>2025-08-01, 9:00 AM - 10:00 AM</td>
+            </tr>
+            <tr>
+              <td>Michael Lee</td>
+              <td>michael.lee@example.com</td>
+              <td>2025-08-02, 11:00 AM - 12:00 PM</td>
+            </tr>
+            <tr>
+              <td>Sophia Brown</td>
+              <td>sophia.brown@example.com</td>
+              <td>2025-08-03, 2:00 PM - 3:00 PM</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Show message if no sessions (hidden by default) -->
+        <div class="no-sessions" style="display: none">
+          No upcoming sessions scheduled.
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

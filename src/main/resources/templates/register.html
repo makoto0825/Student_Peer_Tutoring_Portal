@@ -4,18 +4,8 @@
     <title>User Registration</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <style>
-      body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
       .register-container {
         background: white;
         padding: 40px;
@@ -23,86 +13,12 @@
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
         width: 100%;
         max-width: 500px;
+        margin: 40px auto;
       }
 
       .register-header {
         text-align: center;
         margin-bottom: 30px;
-      }
-
-      .register-header h1 {
-        color: #333;
-        margin: 0;
-        font-size: 28px;
-        font-weight: 300;
-      }
-
-      .form-group {
-        margin-bottom: 20px;
-      }
-
-      .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        color: #555;
-        font-weight: 500;
-      }
-
-      .form-group input {
-        width: 100%;
-        padding: 12px;
-        border: 2px solid #e1e5e9;
-        border-radius: 5px;
-        font-size: 16px;
-        transition: border-color 0.3s ease;
-        box-sizing: border-box;
-      }
-
-      .form-group input:focus {
-        outline: none;
-        border-color: #667eea;
-      }
-
-      .register-button {
-        width: 100%;
-        padding: 12px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: transform 0.2s ease;
-      }
-
-      .register-button:hover {
-        transform: translateY(-2px);
-      }
-
-      .error-message {
-        color: #e74c3c;
-        text-align: center;
-        margin-bottom: 20px;
-        padding: 10px;
-        background-color: #fdf2f2;
-        border-radius: 5px;
-        border: 1px solid #f5c6cb;
-      }
-
-      .login-link {
-        text-align: center;
-        margin-top: 20px;
-      }
-
-      .login-link a {
-        color: #667eea;
-        text-decoration: none;
-        font-weight: 500;
-      }
-
-      .login-link a:hover {
-        text-decoration: underline;
       }
 
       .form-row {
@@ -116,7 +32,7 @@
         align-items: center;
         gap: 5px;
       }
-      .toggle-switch input[type='checkbox'] {
+      .toggle-switch input[type="checkbox"] {
         display: none;
       }
       .switch-label {
@@ -124,12 +40,12 @@
         position: relative;
         width: 60px;
         height: 34px;
-        background: #e74c3c; /* Student is red */
+        background: #764ba2; /* Student is purple */
         border-radius: 34px;
         cursor: pointer;
         transition: background 0.3s;
       }
-      .toggle-switch input[type='checkbox']:checked + .switch-label {
+      .toggle-switch input[type="checkbox"]:checked + .switch-label {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       }
       .switch-switch {
@@ -144,7 +60,7 @@
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       }
       .toggle-switch
-        input[type='checkbox']:checked
+        input[type="checkbox"]:checked
         + .switch-label
         .switch-switch {
         left: 30px;
@@ -154,7 +70,7 @@
   <body>
     <div class="register-container">
       <div class="register-header">
-        <h1>User Registration</h1>
+        <h1 class="heading-1">User Registration</h1>
       </div>
 
       <div
@@ -214,40 +130,40 @@
           </div>
         </div>
 
-        <button type="submit" class="register-button">Register</button>
+        <button type="submit" class="button width-100 mt-20">Register</button>
       </form>
 
-      <div class="login-link">
+      <div class="text-link">
         <a th:href="@{/login}">Already have an account? Login</a>
       </div>
     </div>
 
     <script>
       // Clear the form if success message is displayed
-      document.addEventListener('DOMContentLoaded', function () {
+      document.addEventListener("DOMContentLoaded", function () {
         const successMessage = document.querySelector(
           '[th\\:if="${successMessage}"]'
         );
         if (successMessage) {
-          const form = document.querySelector('form');
+          const form = document.querySelector("form");
           form.reset();
         }
       });
 
-      const roleSwitch = document.getElementById('roleSwitch');
-      const roleInput = document.getElementById('role');
-      const roleTextLeft = document.getElementById('roleTextLeft');
-      const roleTextRight = document.getElementById('roleTextRight');
+      const roleSwitch = document.getElementById("roleSwitch");
+      const roleInput = document.getElementById("role");
+      const roleTextLeft = document.getElementById("roleTextLeft");
+      const roleTextRight = document.getElementById("roleTextRight");
 
-      roleSwitch.addEventListener('change', function () {
+      roleSwitch.addEventListener("change", function () {
         if (this.checked) {
           roleInput.value = 2;
-          roleTextLeft.textContent = 'Student';
-          roleTextRight.textContent = 'Tutor';
+          roleTextLeft.textContent = "Student";
+          roleTextRight.textContent = "Tutor";
         } else {
           roleInput.value = 1;
-          roleTextLeft.textContent = 'Student';
-          roleTextRight.textContent = 'Tutor';
+          roleTextLeft.textContent = "Student";
+          roleTextRight.textContent = "Tutor";
         }
       });
     </script>

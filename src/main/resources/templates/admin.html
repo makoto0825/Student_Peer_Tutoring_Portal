@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <title>Admin - Tutor Management</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <style>
+      .status-verified {
+        color: green;
+        font-weight: bold;
+      }
+
+      .status-unverified {
+        color: red;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div th:replace="fragments/header :: site-header"></div>
+    <main class="main-content">
+      <div class="welcome-card">
+        <h1 class="heading-1">Tutor Management</h1>
+        <p>View and manage tutor verification status below.</p>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Verified Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Verified tutor -->
+            <tr>
+              <td>John</td>
+              <td>Smith</td>
+              <td>john.smith@example.com</td>
+              <td class="status-verified">Verified</td>
+              <td></td>
+            </tr>
+
+            <!-- Unverified tutor -->
+            <tr>
+              <td>Mary</td>
+              <td>Johnson</td>
+              <td>mary.johnson@example.com</td>
+              <td class="status-unverified">Unverified</td>
+              <td><button class="button size-sm">Verify</button></td>
+            </tr>
+
+            <!-- Verified tutor -->
+            <tr>
+              <td>Alex</td>
+              <td>Brown</td>
+              <td>alex.brown@example.com</td>
+              <td class="status-verified">Verified</td>
+              <td></td>
+            </tr>
+
+            <!-- Unverified tutor -->
+            <tr>
+              <td>Sara</td>
+              <td>Miller</td>
+              <td>sara.miller@example.com</td>
+              <td class="status-unverified">Unverified</td>
+              <td><button class="button size-sm">Verify</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </body>
+</html>
