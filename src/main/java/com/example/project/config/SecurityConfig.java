@@ -29,9 +29,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests((requests) -> requests
-                //.requestMatchers("/tutor-profile").hasRole("TUTOR")
-                // TEMPORARY: allow any users to access to /tutor-profile for testing
-                .requestMatchers("/tutor-profile").permitAll()
+                .requestMatchers("/tutor-profile").hasRole("TUTOR")
                 .requestMatchers("/", "/home", "/register", "/login", "/css/**", "/js/**", "/images/**").permitAll()
                 .anyRequest().authenticated()
             )

@@ -124,7 +124,9 @@ body {
   font-weight: 500;
 }
 
-.form-group input {
+.form-group input,
+.form-group textarea,
+.form-group select {
   width: 100%;
   padding: 12px;
   border: 2px solid #e1e5e9;
