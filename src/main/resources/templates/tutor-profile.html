@@ -141,22 +141,34 @@
       <div class="profile-card">
         <h1 class="heading-1">Tutor Profile</h1>
 
-        <div class="profile-field mt-20">
-          <label for="name">Name</label>
-          <input type="text" id="name" value="John Smith" />
-        </div>
+        <form th:action="@{/tutor-profile}" th:object="${user}" method="post">
+          <div class="profile-field">
+            <label for="firstName">First Name</label>
+            <input type="text" th:field="*{firstName}" />
+          </div>
 
-        <div class="profile-field">
-          <label for="department">Department</label>
-          <input type="text" id="department" value="Mathematics" />
-        </div>
+          <div class="profile-field">
+            <label for="lastName">Last Name</label>
+            <input type="text" th:field="*{lastName}" />
+          </div>
 
-        <div class="profile-field">
-          <label for="description">Description</label>
-          <textarea id="description">
-Experienced math tutor specializing in calculus and algebra.</textarea
-          >
-        </div>
+          <div class="profile-field">
+            <label for="email">Email</label>
+            <input type="email" th:field="*{email}" disabled />
+          </div>
+
+          <div class="profile-field">
+            <label for="department">Department</label>
+            <input type="text" th:value="*{department.name}" disabled />
+          </div>
+
+          <div class="profile-field">
+            <label for="description">Description</label>
+            <textarea th:field="*{description}"></textarea>
+          </div>
+
+          <button type="submit"  class="button size-sm">Save Changes</button>
+        </form>
 
         <!-- Available Sessions -->
         <div class="sessions-container">
