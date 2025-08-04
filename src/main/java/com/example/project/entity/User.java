@@ -159,6 +159,10 @@ public class User implements UserDetails {
         this.description = description;
     }
 
+    public Long getDepartmentId() {
+        return department != null ? department.getId() : null;
+    }
+
     public Department getDepartment() {
         return department;
     }

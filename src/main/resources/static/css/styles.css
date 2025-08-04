@@ -106,6 +106,36 @@ body {
   transform: translateY(-2px);
 }
 
+.delete-button {
+  color: rgb(244, 67, 67);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 15px;
+}
+
+.error-message {
+  color: #e74c3c;
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #fdf2f2;
+  border-radius: 5px;
+  border: 1px solid #f5c6cb;
+}
+
+.success-message {
+  color: #28a745;
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #d4edda;
+  border-radius: 5px;
+  border: 1px solid #c3e6cb;
+}
+
 .heading-1 {
   color: #333;
   font-weight: bold;
