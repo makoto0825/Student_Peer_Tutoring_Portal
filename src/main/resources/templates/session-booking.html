@@ -33,153 +33,124 @@
         border: 1px solid #ccc;
         font-size: 16px;
       }
-
-      /* Submit button */
-      .submit-btn {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        width: 100%;
-      }
-
-      .submit-btn:hover {
-        transform: translateY(-2px);
-      }
-
-      /* Success/Error messages */
-      .message {
-        margin-top: 15px;
-        font-size: 14px;
-        text-align: center;
-      }
-
-      .success {
-        color: green;
-      }
-
-      .error {
-        color: red;
-      }
     </style>
   </head>
   <body>
     <div th:replace="fragments/header :: site-header"></div>
     <main class="main-content">
       <div class="form-card">
-        <h1 class="heading-1">Book a Session</h1>
+        <form th:action="@{/book-session}" method="post">
+          <h1 class="heading-1">Book a Session</h1>
+          <div th:if="${error}" class="error-message" th:text="${error}"></div>
+          <div
+            th:if="${success}"
+            class="success-message"
+            th:text="${success}"
+          ></div>
 
-        <!-- Department -->
-        <div class="form-field mt-20">
-          <label for="departmentSelect">Department</label>
-          <select id="departmentSelect" onchange="updateTutors()">
-            <option value="">Select Department</option>
-            <option value="Mathematics">Mathematics</option>
-            <option value="Physics">Physics</option>
-            <option value="Chemistry">Chemistry</option>
-          </select>
-        </div>
+          <!-- Department -->
+          <div class="form-field mt-20">
+            <label for="departmentSelect">Department</label>
+            <select id="departmentSelect" name="departmentId">
+              <option value="">Select Department</option>
+              <option
+                th:each="dept : ${departments}"
+                th:value="${dept.id}"
+                th:text="${dept.name}"
+              ></option>
+            </select>
+          </div>
 
-        <!-- Tutor -->
-        <div class="form-field">
-          <label for="tutorSelect">Tutor</label>
-          <select id="tutorSelect">
-            <option value="">Select Tutor (or Anyone)</option>
-            <option value="anyone">Anyone</option>
-            <!-- Tutors populated dynamically based on department -->
-          </select>
-        </div>
+          <!-- Tutor -->
+          <div class="form-field">
+            <label for="tutorSelect">Tutor</label>
+            <select id="tutorSelect" name="tutorId">
+              <option value="">Select Tutor (or Anyone)</option>
+              <option value="anyone">Anyone</option>
+              <option
+                th:each="tutor : ${tutors}"
+                th:value="${tutor.id}"
+                th:data-department-id="${tutor.departmentId}"
+                th:text="${tutor.firstName + ' ' + tutor.lastName}"
+              ></option>
+            </select>
+          </div>
 
-        <!-- Timeslot -->
-        <div class="form-field">
-          <label for="timeslotSelect">Timeslot</label>
-          <select id="timeslotSelect">
-            <option value="">Select Timeslot</option>
-            <option value="2025-08-01 09:00 AM">2025-08-01 09:00 AM</option>
-            <option value="2025-08-01 10:00 AM">2025-08-01 10:00 AM</option>
-            <option value="2025-08-01 11:00 AM">2025-08-01 11:00 AM</option>
-            <option value="2025-08-01 01:00 PM">2025-08-01 01:00 PM</option>
-            <option value="2025-08-01 02:00 PM">2025-08-01 02:00 PM</option>
-            <option value="2025-08-01 03:00 PM">2025-08-01 03:00 PM</option>
-          </select>
-        </div>
+          <!-- Timeslot -->
+          <div class="form-field">
+            <label for="sessionSelect">Timeslot</label>
+            <select id="sessionSelect" name="sessionId" required>
+              <option value="">Select Session</option>
+              <option
+                th:each="s : ${sessions}"
+                th:value="${s.id}"
+                th:data-tutor-id="${s.tutorId}"
+                th:data-department-id="${s.departmentId}"
+                th:text="${s.date + ' ' + s.timeSlot}"
+              ></option>
+            </select>
+          </div>
 
-        <!-- Submit button -->
-        <button class="submit-btn" onclick="bookSession()">Book Session</button>
-
-        <div class="message" id="message"></div>
+          <button type="submit" class="button size-sm">Book Session</button>
+        </form>
       </div>
     </main>
 
     <script>
-      // Dummy tutors per department
-      const tutorsByDepartment = {
-        Mathematics: ["John Smith", "Alice Davis"],
-        Physics: ["Mary Johnson", "Robert Wilson"],
-        Chemistry: ["Alex Brown", "Sophia Clark"],
-      };
-
-      // Dummy booked sessions for validation
-      const bookedSessions = [
-        "2025-08-01 09:00 AM", // Already booked slot
-        "2025-08-01 02:00 PM",
-      ];
-
-      function updateTutors() {
-        const department = document.getElementById("departmentSelect").value;
+      document.addEventListener("DOMContentLoaded", function () {
+        const departmentSelect = document.getElementById("departmentSelect");
         const tutorSelect = document.getElementById("tutorSelect");
+        const sessionSelect = document.getElementById("sessionSelect");
 
-        // Clear existing options (except 'Anyone')
-        tutorSelect.innerHTML = `<option value="">Select Tutor (or Anyone)</option>
-                                 <option value="anyone">Anyone</option>`;
+        const allSessionOptions = Array.from(
+          sessionSelect.querySelectorAll("option")
+        ).slice(1); // skip "Select Session"
+        const allTutorOptions = Array.from(
+          tutorSelect.querySelectorAll("option")
+        ).slice(2); // skip "Select Tutor" and "Anyone"
 
-        if (department && tutorsByDepartment[department]) {
-          tutorsByDepartment[department].forEach((tutor) => {
-            const option = document.createElement("option");
-            option.value = tutor;
-            option.textContent = tutor;
-            tutorSelect.appendChild(option);
+        function filterTutors() {
+          const selectedDept = departmentSelect.value;
+          allTutorOptions.forEach((option) => {
+            const tutorDept = option.getAttribute("data-department-id");
+            option.style.display =
+              !selectedDept || tutorDept === selectedDept ? "" : "none";
           });
-        }
-      }
-
-      function bookSession() {
-        const department = document.getElementById("departmentSelect").value;
-        const tutor = document.getElementById("tutorSelect").value;
-        const timeslot = document.getElementById("timeslotSelect").value;
-        const messageEl = document.getElementById("message");
-
-        messageEl.textContent = "";
-
-        if (!department || !tutor || !timeslot) {
-          messageEl.textContent = "Please select all fields.";
-          messageEl.className = "message error";
-          return;
+          tutorSelect.value = "";
+          filterSessions();
         }
 
-        // Check if timeslot is already booked
-        if (bookedSessions.includes(timeslot)) {
-          messageEl.textContent = "You already have a session at this time.";
-          messageEl.className = "message error";
-          return;
+        function filterSessions() {
+          const selectedDept = departmentSelect.value;
+          const selectedTutor = tutorSelect.value;
+
+          sessionSelect.innerHTML = '<option value="">Select Session</option>'; // reset
+          const filtered = allSessionOptions.filter((option) => {
+            const sessionDept = option.getAttribute("data-department-id");
+            const sessionTutor = option.getAttribute("data-tutor-id");
+
+            // Match department
+            if (selectedDept && sessionDept !== selectedDept) return false;
+
+            // Match tutor (skip if 'anyone')
+            if (
+              selectedTutor &&
+              selectedTutor !== "anyone" &&
+              sessionTutor !== selectedTutor
+            )
+              return false;
+
+            return true;
+          });
+
+          filtered.forEach((option) =>
+            sessionSelect.appendChild(option.cloneNode(true))
+          );
         }
 
-        // Add to booked sessions (simulate saving)
-        bookedSessions.push(timeslot);
-        messageEl.textContent = "Session booked successfully!";
-        messageEl.className = "message success";
-
-        // Reset form
-        document.getElementById("departmentSelect").value = "";
-        document.getElementById(
-          "tutorSelect"
-        ).innerHTML = `<option value="">Select Tutor (or Anyone)</option>
-                                                            <option value="anyone">Anyone</option>`;
-        document.getElementById("timeslotSelect").value = "";
-      }
+        departmentSelect.addEventListener("change", filterTutors);
+        tutorSelect.addEventListener("change", filterSessions);
+      });
     </script>
   </body>
 </html>

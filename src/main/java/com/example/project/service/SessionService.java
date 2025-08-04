@@ -62,6 +62,14 @@ public class SessionService {
     }
 
     /**
+     * Get available sessions with upcoming dates and no student assigned.
+     */
+    public List<Session> getAvailableSessions() {
+        LocalDate today = LocalDate.now();
+        return sessionRepository.findByStudentIdIsNullAndDateGreaterThanEqual(today);
+    }
+
+    /**
      * Book a session for a student.
      * Checks if student already has a session with same date & time slot.
      */

@@ -16,5 +16,9 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
 
     List<Session> findByStudentId(Long studentId);
 
+    List<Session> findByStudentIdIsNullAndDateGreaterThanEqual(LocalDate date);
+
+    List<Session> findByTutorIdAndStudentIdIsNullAndDateGreaterThanEqual(Long tutorId, LocalDate date);
+
     boolean existsByStudentIdAndDateAndTimeSlot(Long studentId, LocalDate date, String timeSlot);
 }
