@@ -27,11 +27,6 @@ public class HomeController {
         return "dashboard";
     }
 
-    @GetMapping("/admin")
-    public String admin() {
-        return "admin";
-    }
-
     @GetMapping("/tutor")
     public String tutor() {
         return "tutor";

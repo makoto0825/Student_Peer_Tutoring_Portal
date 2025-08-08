@@ -1,116 +1,162 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-  <head>
-    <title>Student Home</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
-    <style>
-      /* Cancel button */
-      .cancel-btn {
-        background: #e74c3c;
-        color: white;
-        border: none;
-        padding: 6px 12px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-        transition: transform 0.2s ease;
+<head>
+  <title>Student Home</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  <style>
+    .profile-card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 40px;
+      max-width: 600px;
+    }
+
+    .profile-header {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+
+    .profile-info p {
+      margin: 8px 0;
+      color: #444;
+    }
+
+    .edit-profile-btn {
+      background-color: #764ba2;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .cancel-btn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: transform 0.2s ease;
+    }
+
+    .cancel-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .no-sessions {
+      text-align: center;
+      padding: 20px;
+      color: #888;
+      font-style: italic;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #764ba2;
+      color: white;
+    }
+
+    .button.mt-20 {
+      margin-top: 20px;
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      padding: 10px 20px;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<div th:replace="fragments/header :: site-header"></div>
+
+<main class="main-content">
+  <!-- Welcome -->
+  <div class="welcome-card">
+    <h1 class="heading-1">Welcome, Student!</h1>
+    <p>Here is your profile and upcoming tutoring sessions.</p>
+  </div>
+
+  <!-- Profile Card -->
+  <div class="profile-card">
+    <div class="profile-header">🎓 Your Profile</div>
+    <div class="profile-info">
+      <p><strong>Name:</strong> <span th:text="${student.name}">Jane Doe</span></p>
+      <p><strong>Email:</strong> <span th:text="${student.email}">jane.doe@example.com</span></p>
+      <p><strong>Major:</strong> <span th:text="${student.major}">Computer Science</span></p>
+      <p><strong>Year:</strong> <span th:text="${student.year}">3rd Year</span></p>
+      <button class="edit-profile-btn" onclick="window.location.href='/profile/edit'">Edit Profile</button>
+    </div>
+  </div>
+
+  <!-- Sessions Table -->
+  <div class="table-container">
+    <h2>📅 Upcoming Tutoring Sessions</h2>
+    <table>
+      <thead>
+      <tr>
+        <th>Tutor Name</th>
+        <th>Department</th>
+        <th>Email</th>
+        <th>Date & Time</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Dummy static data -->
+      <tr>
+        <td>John Smith</td>
+        <td>Mathematics</td>
+        <td>john.smith@example.com</td>
+        <td>2025-08-01, 9:00 AM - 10:00 AM</td>
+        <td><button class="cancel-btn" onclick="cancelSession(this)">Cancel</button></td>
+      </tr>
+      <tr>
+        <td>Mary Johnson</td>
+        <td>Physics</td>
+        <td>mary.johnson@example.com</td>
+        <td>2025-08-02, 11:00 AM - 12:00 PM</td>
+        <td><button class="cancel-btn" onclick="cancelSession(this)">Cancel</button></td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="no-sessions" style="display: none">No upcoming sessions scheduled.</div>
+
+    <a href="/session-booking" class="button mt-20">Book New Session</a>
+  </div>
+</main>
+
+<script>
+  function cancelSession(button) {
+    if (confirm("Are you sure you want to cancel this session?")) {
+      button.closest("tr").remove();
+
+      const tbody = document.querySelector("tbody");
+      if (tbody.children.length === 0) {
+        document.querySelector(".no-sessions").style.display = "block";
       }
-
-      .cancel-btn:hover {
-        transform: translateY(-2px);
-      }
-
-      /* No sessions message */
-      .no-sessions {
-        text-align: center;
-        padding: 20px;
-        color: #888;
-        font-style: italic;
-      }
-    </style>
-  </head>
-  <body>
-    <div th:replace="fragments/header :: site-header"></div>
-    <main class="main-content">
-      <!-- Welcome section -->
-      <div class="welcome-card">
-        <h1 class="heading-1">Welcome, Student!</h1>
-        <p>Here are your upcoming tutoring sessions.</p>
-      </div>
-
-      <!-- Sessions table -->
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Tutor Name</th>
-              <th>Department</th>
-              <th>Email</th>
-              <th>Date & Time</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Dummy data -->
-            <tr>
-              <td>John Smith</td>
-              <td>Mathematics</td>
-              <td>john.smith@example.com</td>
-              <td>2025-08-01, 9:00 AM - 10:00 AM</td>
-              <td>
-                <button class="cancel-btn" onclick="cancelSession(this)">
-                  Cancel
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>Mary Johnson</td>
-              <td>Physics</td>
-              <td>mary.johnson@example.com</td>
-              <td>2025-08-02, 11:00 AM - 12:00 PM</td>
-              <td>
-                <button class="cancel-btn" onclick="cancelSession(this)">
-                  Cancel
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>Alex Brown</td>
-              <td>Chemistry</td>
-              <td>alex.brown@example.com</td>
-              <td>2025-08-03, 2:00 PM - 3:00 PM</td>
-              <td>
-                <button class="cancel-btn" onclick="cancelSession(this)">
-                  Cancel
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- No sessions message (hidden by default) -->
-        <div class="no-sessions" style="display: none">
-          No upcoming sessions scheduled.
-        </div>
-
-        <a href="/session-booking" class="button mt-20">Book Session</a>
-      </div>
-    </main>
-
-    <script>
-      function cancelSession(button) {
-        if (confirm("Are you sure you want to cancel this session?")) {
-          button.closest("tr").remove();
-
-          // Check if table is empty
-          const tbody = document.querySelector("tbody");
-          if (tbody.children.length === 0) {
-            document.querySelector(".no-sessions").style.display = "block";
-          }
-        }
-      }
-    </script>
-  </body>
+    }
+  }
+</script>
+</body>
 </html>

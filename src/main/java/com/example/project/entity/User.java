@@ -36,19 +36,22 @@ public class User implements UserDetails {
     
     @Column(name = "enabled", nullable = false)
     private boolean enabled = true;
-    
 
+    @Column(name = "verified", nullable = false)
+    private boolean verified = false;
     public User() {}
     
     // Constructor
-    public User(String username, String password, String email, String firstName, String lastName) {
+    public User(String username, String password, String email, String firstName, String lastName, int role) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.role = role;
+        this.verified = (role == 1); // student = verified, tutor = not
     }
-    
+
     // UserDetails interface implementation
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -73,9 +76,18 @@ public class User implements UserDetails {
     
     @Override
     public boolean isEnabled() {
-        return enabled;
+
+        return enabled && (role == 1 || verified); // Students always enabled, tutors must be verified
     }
-    
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
+    }
+
     // Getters and Setters
     public Long getId() {
         return id;

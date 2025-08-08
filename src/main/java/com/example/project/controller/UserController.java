@@ -26,26 +26,33 @@ public class UserController {
     public String showRegistrationForm() {
         return "register";
     }
-    
+
     @PostMapping("/register")
     public String registerUser(@RequestParam String username,
-                              @RequestParam String password,
-                              @RequestParam String email,
-                              @RequestParam String firstName,
-                              @RequestParam String lastName,
-                              @RequestParam int role,
-                              Model model) {
+                               @RequestParam String password,
+                               @RequestParam String email,
+                               @RequestParam String firstName,
+                               @RequestParam String lastName,
+                               @RequestParam int role,
+                               Model model) {
         try {
             userService.registerUser(username, password, email, firstName, lastName, role);
-            return "register_success";
+
+            if (role == 2) {
+                model.addAttribute("successMessage", "Registration successful! Please wait for admin verification.");
+            } else {
+                model.addAttribute("successMessage", "Registration successful! You can now log in.");
+            }
+
         } catch (RuntimeException e) {
             model.addAttribute("errorMessage", e.getMessage());
-            return "register";
         }
+
+        return "register";
     }
 
     @GetMapping("/register-success")
     public String registerSuccess() {
         return "register_success";
     }
-} 
+}
