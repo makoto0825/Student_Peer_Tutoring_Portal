@@ -25,16 +25,6 @@
         font-size: 1.1em;
         margin-bottom: 30px;
       }
-      .success-container a {
-        display: inline-block;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 12px 30px;
-        border-radius: 5px;
-        text-decoration: none;
-        font-weight: 500;
-        transition: background 0.2s;
-      }
       .success-container a:hover {
         background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
       }
@@ -43,11 +33,8 @@
   <body>
     <div class="success-container">
       <h1>Registration Complete!</h1>
-      <p>
-        User registration has been completed successfully.<br />Please login to
-        use the service.
-      </p>
-      <a th:href="@{/login}">Go to Login Page</a>
+      <div th:if="${successMessage}" th:text="${successMessage}"></div>
+      <a th:href="@{/login}" class="button size-sm mt-20">Go to Login Page</a>
     </div>
   </body>
 </html>

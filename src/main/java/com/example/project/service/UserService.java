@@ -35,7 +35,7 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Invalid department ID"));
 
         String encodedPassword = passwordEncoder.encode(password);
-        User user = new User(username, encodedPassword, email, firstName, lastName, description, department);
+        User user = new User(username, encodedPassword, email, firstName, lastName, description, department, role);
         user.setVerified(role == 1); // students auto-verified, tutors not
         user.setRole(role);
         return userRepository.save(user);
