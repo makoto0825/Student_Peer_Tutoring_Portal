@@ -1,243 +1,336 @@
 # Student Peer Tutoring Portal
 
-A web application that connects students with peer tutors to facilitate collaborative learning and academic support.
+A web application that connects students with peer tutors to facilitate collaborative learning and academic support.  
+Supports **role-based access** (Student, Tutor, Admin), tutor **verification**, **department** management, and **session booking**.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-Before running this application, make sure you have the following installed:
-
-- **Java 17** or higher
+- **Java 17+**
 - **Maven 3.6+**
 - **MySQL 8.0+**
-- **IDE** (IntelliJ IDEA, Eclipse, or VS Code)
+- **IDE** (IntelliJ IDEA, Eclipse, VS Code)
 
-### Setup Instructions
+### Setup
 
-1. **Clone the repository**
+1. **Clone**
 
-   ```bash
-   git clone https://github.com/makoto0825/Student_Peer_Tutoring_Portal.git
-   cd Student_Peer_Tutoring_Portal
-   ```
+```bash
+git clone https://github.com/makoto0825/Student_Peer_Tutoring_Portal.git
+cd Student_Peer_Tutoring_Portal
+```
 
-2. **Database Setup**
+2. **Database**
+   Update `src/main/resources/application.properties` if needed:
 
-   - Install MySQL and start the MySQL service
-   - Create a database named `project` (or the application will create it automatically)
-   - Update database credentials in `src/main/resources/application.properties` if needed:
-     ```properties
-     spring.datasource.url=jdbc:mysql://localhost:3306/project?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
-     spring.datasource.username=root
-     spring.datasource.password=your_password_here
-     ```
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/project?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+spring.datasource.username=root
+spring.datasource.password=your_password_here
 
-3. **Install Dependencies**
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+```
 
-   ```bash
-   mvn clean install
-   ```
+3. **Build**
 
-4. **Run the Application**
+```bash
+mvn clean install
+```
 
-run the main class `ProjectApplication.java` from your IDE.
+4. **Run**
+   Run `ProjectApplication.java` from your IDE.
 
-5. **Access the Application**
-   - Open your browser and navigate to: `http://localhost:8080`
-   - The application will be running on port 8080
+5. **Open**
+   `http://localhost:8080`
 
-## 📖 Page Overview
+## 📖 Page & Route Overview
 
-### 🏠 Home Page (`/home`)
+### Public
 
-**File:** `src/main/resources/templates/home.html`
+- **Home** — `GET /home`  
+  _Controller: `HomeController` → `home.html`_
+- **Login** — `GET /login`  
+  _Controller: `HomeController` → `login.html`_
+- **Register** — `GET /register`, `POST /register`  
+  _Controller: `UserController` → `register.html`_
+- **Register Success** — `GET /register-success`  
+  _Controller: `UserController` → `register_success.html`_
+- **Root Redirect** — `GET /` → `redirect:/home`
 
-- **Purpose:** Landing page for all visitors
-- **Features:**
-  - Welcome message and platform introduction
-  - Navigation links to login and registration
-  - Feature showcase (Learning Support, Peer Learning, Goal Achievement)
-  - Responsive design with gradient background
-- **Access:** Public (no authentication required)
+### Student (role = 1)
 
-### 🔐 Login Page (`/login`)
+- **Dashboard** — `GET /student` → `student.html`  
+  Upcoming/past sessions with tutor names & departments
+- **Profile** — `GET /student/profile`, `POST /student/profile` → `student_profile.html`
+- **Book Session** — `GET /student/book-session`, `POST /student/book-session` → `session-booking.html`  
+  Department/tutor filters + unbooked sessions
+- **Cancel Session** — `POST /student/cancel-session`  
+  (Only future sessions; server-validated)
 
-**File:** `src/main/resources/templates/login.html`
+### Tutor (role = 2)
 
-- **Purpose:** User authentication
-- **Features:**
-  - Username and password input fields
-  - Error messages for invalid credentials
-  - Success messages from registration
-  - Links to home page and registration
-- **Access:** Public (redirects to dashboard after successful login)
+- **Dashboard** — `GET /tutor` → `tutor.html`  
+  Upcoming (today or later) + past (booked) sessions, student names
+- **Create Session** — `POST /tutor/session`  
+  (Add open time slots: date + timeSlot)
+- **Delete Session** — `POST /tutor/session/delete`  
+  (Only upcoming sessions)
+- **Profile** — `GET /tutor/profile`, `POST /tutor/profile` → `tutor-profile.html`
 
-### 📝 Registration Page (`/register`)
+### Admin
 
-**File:** `src/main/resources/templates/register.html`
+- **Admin Panel** — `GET /admin` → `admin.html`  
+  Lists **pending tutors** (role=2, verified=false)
+- **Verify Tutor** — `POST /admin/verify/{id}`
+- **Deny Tutor** — `POST /admin/deny/{id}` (deletes unverified tutor)
 
-- **Purpose:** New user account creation
-- **Features:**
-  - User information form (username, email, first name, last name, password)
-  - Role selection toggle (Student/Tutor)
-  - Form validation and error handling
-  - Success/error message display
-  - Responsive form layout
-- **Access:** Public
-- **Note:** Role 1 = Student, Role 2 = Tutor
-
-### ✅ Registration Success Page (`/register_success`)
-
-**File:** `src/main/resources/templates/register_success.html`
-
-- **Purpose:** Confirmation page after successful registration
-- **Features:**
-  - Success confirmation message
-  - Direct link to login page
-  - Clean, centered design
-- **Access:** Public (typically accessed after successful registration)
-
-### 📊 Dashboard Page (`/dashboard`)
-
-**File:** `src/main/resources/templates/dashboard.html`
-
-- **Purpose:** Main user interface after login
-- **Features:**
-  - Personalized welcome message with username
-  - Navigation to different sections
-  - Quick access to tutoring sessions
-  - Profile settings access
-  - Logout functionality
-- **Access:** Authenticated users only
-- **Security:** Redirects to login if not authenticated
+> If a user hits a role-mismatched page, controllers redirect to `/access-denied` (add a template if you want a nice page).
 
 ## 🏗️ Project Structure
 
 ```
 src/
-├── main/
-│   ├── java/com/example/project/
-│   │   ├── ProjectApplication.java          # Main application class
-│   │   ├── config/
-│   │   │   ├── PasswordEncoderConfig.java   # Password encryption config
-│   │   │   └── SecurityConfig.java          # Spring Security configuration
-│   │   ├── controller/
-│   │   │   ├── HomeController.java          # Home and public pages
-│   │   │   └── UserController.java          # User registration/auth
-│   │   ├── entity/
-│   │   │   └── User.java                    # User entity/model
-│   │   ├── repository/
-│   │   │   └── UserRepository.java          # Data access layer
-│   │   └── service/
-│   │       ├── CustomUserDetailsService.java # Spring Security user service
-│   │       └── UserService.java             # Business logic for users
-│   └── resources/
-│       ├── application.properties           # Application configuration
-│       ├── static/                          # Static files (CSS, JS, images)
-│       └── templates/                       # Thymeleaf HTML templates
-└── test/                                    # Test files
+├─ main/
+│  ├─ java/com/example/project/
+│  │  ├─ ProjectApplication.java
+│  │  ├─ config/
+│  │  │  ├─ SecurityConfig.java
+│  │  │  └─ PasswordEncoderConfig.java
+│  │  ├─ controller/
+│  │  │  ├─ HomeController.java
+│  │  │  ├─ UserController.java
+│  │  │  ├─ StudentController.java
+│  │  │  ├─ TutorController.java
+│  │  │  └─ AdminController.java
+│  │  ├─ entity/
+│  │  │  ├─ User.java
+│  │  │  ├─ Department.java
+│  │  │  └─ Session.java
+│  │  ├─ repository/
+│  │  │  ├─ UserRepository.java
+│  │  │  ├─ DepartmentRepository.java
+│  │  │  └─ SessionRepository.java
+│  │  ├─ seed/
+│  │  │  └─ DepartmentSeeder.java
+│  │  └─ service/
+│  │     ├─ CustomUserDetailsService.java
+│  │     ├─ UserService.java
+│  │     ├─ DepartmentService.java
+│  │     └─ SessionService.java
+│  └─ resources/
+│     ├─ application.properties
+│     ├─ static/
+│     └─ templates/
+└─ test/
 ```
 
-## 🔧 Technology Stack
+## 🔧 Tech Stack
 
-- **Backend:** Spring Boot 3.x
-- **Security:** Spring Security
-- **Database:** MySQL with Spring Data JPA
-- **Template Engine:** Thymeleaf
-- **Build Tool:** Maven
-- **Java Version:** 17+
+- **Spring Boot 3.x**, **Thymeleaf**
+- **Spring Security** (BCrypt)
+- **MySQL** + **Spring Data JPA**
+- **Maven**, **Java 17**
 
-## 🔑 Key Features
+## 🔑 Core Features
 
-### Authentication & Security
+- **Registration with Roles**  
+  Role 1 = Student, Role 2 = Tutor (Admin supported); Tutors start **unverified**.
+- **Tutor Verification (Admin)**  
+  Approve or deny pending tutors.
+- **Departments (Seeded)**  
+  `DepartmentSeeder` loads initial departments at startup.
+- **Sessions**  
+  Tutors publish time slots; Students book/cancel with safeguards.
+- **Profiles**  
+  Students & Tutors can update their profile fields.
 
-- User registration with role-based access (Student/Tutor)
-- Password encryption using BCrypt
-- Session management with Spring Security
-- CSRF protection enabled
+## 🚦 Endpoints (Quick Reference)
 
-### Database
+| Endpoint                  | Method   | Purpose                    | Access        |
+| ------------------------- | -------- | -------------------------- | ------------- |
+| `/`                       | GET      | Redirect to `/home`        | Public        |
+| `/home`                   | GET      | Home page                  | Public        |
+| `/login`                  | GET      | Login page                 | Public        |
+| `/register`               | GET/POST | Create account             | Public        |
+| `/register-success`       | GET      | Post-register confirmation | Public        |
+| `/student`                | GET      | Student dashboard          | Student       |
+| `/student/profile`        | GET/POST | View/update profile        | Student       |
+| `/student/book-session`   | GET/POST | List & book sessions       | Student       |
+| `/student/cancel-session` | POST     | Cancel future session      | Student       |
+| `/tutor`                  | GET      | Tutor dashboard            | Tutor         |
+| `/tutor/session`          | POST     | Create session slot        | Tutor         |
+| `/tutor/session/delete`   | POST     | Delete upcoming session    | Tutor         |
+| `/tutor/profile`          | GET/POST | View/update profile        | Tutor         |
+| `/admin`                  | GET      | Pending tutors list        | Admin         |
+| `/admin/verify/{id}`      | POST     | Verify tutor               | Admin         |
+| `/admin/deny/{id}`        | POST     | Deny (delete) tutor        | Admin         |
+| `/logout`                 | POST     | Logout                     | Authenticated |
 
-- MySQL integration with automatic table creation
-- User entity with roles and profile information
-- JPA repositories for data access
+## 🔄 Database Schema (Essentials)
 
-### User Interface
+### `users`
 
-- Responsive design with modern CSS
-- Clean, professional styling
-- Interactive elements (toggle switches, hover effects)
-- Form validation and error handling
+| Column        | Type                       | Notes                                   |
+| ------------- | -------------------------- | --------------------------------------- |
+| id            | BIGINT PK                  | auto                                    |
+| username      | VARCHAR(255)               | unique, not null                        |
+| password      | VARCHAR(255)               | BCrypt                                  |
+| email         | VARCHAR(255)               | not null                                |
+| first_name    | VARCHAR(255)               |                                         |
+| last_name     | VARCHAR(255)               |                                         |
+| description   | TEXT                       | profile bio                             |
+| department_id | BIGINT FK → department(id) | required for tutors                     |
+| role          | INT                        | 1=Student, 2=Tutor, (3=Admin supported) |
+| verified      | BOOLEAN                    | tutors must be verified by admin        |
+| enabled       | BOOLEAN                    | default true                            |
 
-## 🚦 Available Endpoints
+### `department`
 
-| Endpoint            | Method   | Description          | Access        |
-| ------------------- | -------- | -------------------- | ------------- |
-| `/`                 | GET      | Redirects to home    | Public        |
-| `/home`             | GET      | Home page            | Public        |
-| `/login`            | GET/POST | Login page           | Public        |
-| `/register`         | GET/POST | Registration page    | Public        |
-| `/register_success` | GET      | Registration success | Public        |
-| `/dashboard`        | GET      | User dashboard       | Authenticated |
-| `/logout`           | POST     | Logout user          | Authenticated |
+| Column | Type         | Notes            |
+| ------ | ------------ | ---------------- |
+| id     | BIGINT PK    | auto             |
+| name   | VARCHAR(255) | unique, not null |
 
-## 🔄 Database Schema
+### `session`
 
-### Users Table
+| Column     | Type                  | Notes                                 |
+| ---------- | --------------------- | ------------------------------------- |
+| id         | BIGINT PK             | auto                                  |
+| tutor_id   | BIGINT FK → users(id) | required                              |
+| student_id | BIGINT FK → users(id) | null until booked                     |
+| date       | DATE                  | required                              |
+| time_slot  | VARCHAR(50)           | e.g., `"09:00-09:30"`                 |
+| status     | VARCHAR(50)           | optional (e.g., `"OPEN"`, `"BOOKED"`) |
 
-| Column     | Type         | Constraints                 | Description            |
-| ---------- | ------------ | --------------------------- | ---------------------- |
-| id         | BIGINT       | PRIMARY KEY, AUTO_INCREMENT | Unique user identifier |
-| username   | VARCHAR(255) | UNIQUE, NOT NULL            | User login name        |
-| password   | VARCHAR(255) | NOT NULL                    | Encrypted password     |
-| email      | VARCHAR(255) | NOT NULL                    | User email address     |
-| first_name | VARCHAR(255) |                             | User's first name      |
-| last_name  | VARCHAR(255) |                             | User's last name       |
-| role       | INT          | NOT NULL, DEFAULT 1         | 1=Student, 2=Tutor     |
-| enabled    | BOOLEAN      | NOT NULL, DEFAULT TRUE      | Account status         |
+## 🧭 Typical Flows & Role Features
+
+### All Users
+
+**Features**
+
+- Register (`/register`) → success screen (`/register-success`)
+- Log in (`/login`), log out (`/logout`)
+- View Home (`/home`)
+- Update profile (role-specific pages)
+
+**Flow**
+
+1. Visit `/register` → submit form
+2. See `/register-success` → go to `/login`
+3. Log in → redirected to role dashboard (`/student`, `/tutor`, or `/admin`)
+4. Update profile from role-specific profile page
+
+---
+
+### Student (role = 1)
+
+**Key Pages & Endpoints**
+
+- Dashboard: `GET /student`
+- Profile: `GET /student/profile`, `POST /student/profile`
+- Book Session: `GET /student/book-session`, `POST /student/book-session`
+- Cancel Session: `POST /student/cancel-session`
+
+**Features**
+
+- See **upcoming** and **past** sessions (with tutor names + department names)
+- Filter/browse **available (unbooked)** sessions by department/tutor
+- Book a session (assigns `student_id`)
+- Cancel **future** sessions only (server-validated)
+- Edit profile (name, email, description, department if applicable)
+
+**Typical Flow**
+
+1. Open **Student Dashboard** (`/student`) to review sessions
+2. Go to **Book Session** (`/student/book-session`) → filter by department/tutor
+3. **POST book-session** with `sessionId` → success/error flash
+4. If needed, **cancel a future session** via `POST /student/cancel-session`
+5. **Update profile** at `/student/profile` → success flash
+
+**Guards**
+
+- Cancels only allowed for **dates after today**
+- Role check enforced; non-students are redirected
+
+---
+
+### Tutor (role = 2)
+
+**Key Pages & Endpoints**
+
+- Dashboard: `GET /tutor`
+- Create Session Slot: `POST /tutor/session`
+- Delete Session Slot: `POST /tutor/session/delete`
+- Profile: `GET /tutor/profile`, `POST /tutor/profile`
+
+**Features**
+
+- View upcoming sessions (today or later) and past **booked** sessions
+- See student names for booked sessions
+- Publish **open time slots** (date + `timeSlot`)
+- Delete **upcoming** sessions only
+- Edit profile (name, email, description, department)
+
+**Typical Flow**
+
+1. (After admin verification) open **Tutor Dashboard** (`/tutor`)
+2. **Create session slots** with date + timeSlot → success flash
+3. Manage slots: **delete upcoming** sessions if needed
+4. Track booked sessions and prep using student names
+5. **Update profile** at `/tutor/profile` → success flash
+
+**Guards**
+
+- Only **upcoming** sessions can be deleted
+- Only verified tutors should be actively scheduling (enforced by admin flow)
+- Role check enforced; non-tutors are redirected
+
+---
+
+### Admin
+
+**Key Pages & Endpoints**
+
+- Admin Panel: `GET /admin`
+- Verify Tutor: `POST /admin/verify/{id}`
+- Deny Tutor: `POST /admin/deny/{id}`
+
+**Features**
+
+- View **pending tutors** (role=2, `verified=false`)
+- **Verify** tutor (sets `verified=true`)
+- **Deny** tutor (remove unverified tutor account)
+
+**Typical Flow**
+
+1. Open **Admin Panel** (`/admin`) → see **Pending Tutors** list
+2. For each candidate:
+   - **Verify** → tutor becomes active and can create sessions
+   - **Deny** → tutor record deleted
+3. Return to `/admin` to review remaining pending tutors
+
+**Guards**
+
+- Admin-only access to `/admin` and verify/deny endpoints
+- Verify action only applies to users with role=2
+
+---
 
 ## 🐛 Troubleshooting
 
-### Common Issues
-
-1. **Database Connection Error**
-
-   - Ensure MySQL is running
-   - Check database credentials in `application.properties`
-   - Verify database name exists or can be created
-
-2. **Port Already in Use**
-
-   - Change the port in `application.properties`:
-     ```properties
-     server.port=8081
-     ```
-
-3. **Build Failures**
-   - Run `mvn clean install` to refresh dependencies
-   - Check Java version compatibility
-
-### Logs
-
-- Application logs are displayed in the console
-- SQL queries are shown when `spring.jpa.show-sql=true`
+- **DB connection**: ensure MySQL is running; verify credentials in `application.properties`.
+- **Port conflict**: set `server.port=8081`.
+- **Tables not present**: confirm `spring.jpa.hibernate.ddl-auto=update`.
+- **Seeds not loading**: check `DepartmentSeeder` is annotated and runs at startup.
 
 ## 📝 Development Notes
 
-- The application uses Thymeleaf for server-side rendering
-- CSS is embedded in HTML templates for simplicity
-- Form validation includes both client-side and server-side checks
-- Passwords are automatically encrypted before storing in database
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+- Thymeleaf templates live in `src/main/resources/templates`.
+- Controllers rely on `SessionService`/`UserService` for business logic and validation.
+- Security paths & post-login redirects are configured in `SecurityConfig`.
 
 ## 📄 License
 
-This project is for educational purposes as part of Web Application Development coursework.
+For educational use as part of Web Application Development coursework.
