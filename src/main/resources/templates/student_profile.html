@@ -1,26 +1,128 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>Edit Profile</title>
-</head>
-<body>
-<h1>Edit Profile</h1>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <title>Tutor Profile</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <style>
+      .profile-card {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        margin: 30px auto;
+        max-width: 900px;
+      }
 
-<form th:action="@{/student/profile}" th:object="${student}" method="post">
-  <label>First Name:</label>
-  <input type="text" th:field="*{firstName}" required /><br/>
+      .profile-field {
+        margin-bottom: 20px;
+      }
 
-  <label>Last Name:</label>
-  <input type="text" th:field="*{lastName}" required /><br/>
+      .profile-field label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #555;
+      }
 
-  <label>Email:</label>
-  <input type="email" th:field="*{email}" required /><br/>
+      .profile-field input,
+      .profile-field textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+      }
 
-  <button type="submit">Update</button>
-</form>
+      textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
 
-<div th:if="${param.success}">
-  <p>Profile updated successfully!</p>
-</div>
-</body>
+      /* Sessions section */
+      .sessions-container {
+        margin-top: 30px;
+      }
+
+      .sessions-container h2 {
+        font-size: 22px;
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      ul.session-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      ul.session-list li {
+        background: #f1f1f1;
+        padding: 10px 15px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .remove-btn {
+        background: #e74c3c;
+        color: white;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div th:replace="fragments/header :: site-header"></div>
+    <main class="main-content">
+      <div class="profile-card">
+        <h1 class="heading-1">Student Profile</h1>
+        <div th:if="${success}" class="mt-20 success-message">
+          <span th:text="${success}"></span>
+        </div>
+        <form
+          th:action="@{/student/profile}"
+          th:object="${user}"
+          method="post"
+          class="mt-20"
+        >
+          <div class="profile-field">
+            <label for="firstName">First Name</label>
+            <input type="text" th:field="*{firstName}" />
+          </div>
+
+          <div class="profile-field">
+            <label for="lastName">Last Name</label>
+            <input type="text" th:field="*{lastName}" />
+          </div>
+
+          <div class="profile-field">
+            <label for="email">Email</label>
+            <input type="email" th:field="*{email}" disabled />
+          </div>
+
+          <div class="profile-field">
+            <label for="department">Department</label>
+            <input type="text" th:value="*{department.name}" disabled />
+          </div>
+
+          <div class="profile-field">
+            <label for="description">Description</label>
+            <textarea th:field="*{description}"></textarea>
+          </div>
+
+          <button type="submit" class="button size-sm">Save Changes</button>
+        </form>
+        <div class="mt-20">
+          <a th:href="@{/student}" class="link">View My Sessions</a>
+        </div>
+      </div>
+    </main>
+  </body>
 </html>

@@ -152,7 +152,7 @@ public class HomeController {
         return "redirect:/tutor";
     }
 
-    @GetMapping("/tutor-profile")
+    @GetMapping("/tutor/profile")
     public String showTutorProfile(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         User user = userService.findByUsername(userDetails.getUsername());
 
@@ -165,79 +165,10 @@ public class HomeController {
         return "tutor-profile";
     }
 
-    @PostMapping("/tutor-profile")
+    @PostMapping("/tutor/profile")
     public String updateTutorProfile(@AuthenticationPrincipal UserDetails userDetails,
                                      @ModelAttribute("user") User updatedUser) {
         userService.updateUserProfile(userDetails.getUsername(), updatedUser);
-        return "redirect:/tutor-profile";
-    }
-
-    /**
-     * Student dashboard page
-     * Shows upcoming and past sessions
-     */
-
-    @GetMapping("/student")
-    public String student() {
-        return "student";
-    }
-
-    /**
-     * Session booking page
-     * Allows students to book sessions with tutors
-     */
-    @GetMapping("/book-session")
-    public String bookSessionPage(Model model) {
-        // Get all departments
-        List<Department> departments = departmentService.findAll();
-
-        // Get all tutors (role = 2)
-        List<User> tutors = userService.findTutors();
-
-        // Get all unbooked sessions
-        List<Session> availableSessions = sessionService.getAvailableSessions();
-
-        List<Map<String, Object>> sessionData = availableSessions.stream()
-            .map(session -> {
-                Map<String, Object> map = new HashMap<>();
-                map.put("id", session.getId());
-                map.put("date", session.getDate());
-                map.put("timeSlot", session.getTimeSlot());
-                map.put("tutorId", session.getTutorId());
-
-                // Get tutor's departmentId
-                User tutor = tutors.stream()
-                        .filter(t -> t.getId().equals(session.getTutorId()))
-                        .findFirst()
-                        .orElse(null);
-                map.put("departmentId", tutor != null ? tutor.getDepartmentId() : null);
-
-                return map;
-            })
-            .toList();
-
-        model.addAttribute("departments", departments);
-        model.addAttribute("tutors", tutors);
-        model.addAttribute("sessions", sessionData);
-
-        return "session-booking";
-    }
-
-    @PostMapping("/book-session")
-    public String bookSession(@AuthenticationPrincipal UserDetails userDetails,
-                            @RequestParam("sessionId") Long sessionId,
-                            RedirectAttributes redirectAttributes) {
-        try {
-            User student = userService.findByUsername(userDetails.getUsername());
-
-            if (student.getRole() != 1) { // Ensure student role
-                redirectAttributes.addFlashAttribute("error", "Access denied");
-            }
-            sessionService.bookSession(sessionId, student.getId());
-            redirectAttributes.addFlashAttribute("success", "Session booked successfully!");
-        } catch (RuntimeException e) {
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
-        }
-        return "redirect:/book-session";
+        return "redirect:/tutor/profile";
     }
 }

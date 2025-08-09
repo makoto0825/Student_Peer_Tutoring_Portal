@@ -1,162 +1,173 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-<head>
-  <title>Student Home</title>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" th:href="@{/css/styles.css}" />
-  <style>
-    .profile-card {
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      margin-bottom: 40px;
-      max-width: 600px;
-    }
-
-    .profile-header {
-      font-size: 24px;
-      margin-bottom: 15px;
-    }
-
-    .profile-info p {
-      margin: 8px 0;
-      color: #444;
-    }
-
-    .edit-profile-btn {
-      background-color: #764ba2;
-      color: white;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    .cancel-btn {
-      background: #e74c3c;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: transform 0.2s ease;
-    }
-
-    .cancel-btn:hover {
-      transform: translateY(-2px);
-    }
-
-    .no-sessions {
-      text-align: center;
-      padding: 20px;
-      color: #888;
-      font-style: italic;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 30px;
-    }
-
-    th, td {
-      padding: 12px;
-      text-align: center;
-      border: 1px solid #ddd;
-    }
-
-    th {
-      background-color: #764ba2;
-      color: white;
-    }
-
-    .button.mt-20 {
-      margin-top: 20px;
-      display: inline-block;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      padding: 10px 20px;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-    }
-  </style>
-</head>
-<body>
-<div th:replace="fragments/header :: site-header"></div>
-
-<main class="main-content">
-  <!-- Welcome -->
-  <div class="welcome-card">
-    <h1 class="heading-1">Welcome, Student!</h1>
-    <p>Here is your profile and upcoming tutoring sessions.</p>
-  </div>
-
-  <!-- Profile Card -->
-  <div class="profile-card">
-    <div class="profile-header">🎓 Your Profile</div>
-    <div class="profile-info">
-      <p><strong>Name:</strong> <span th:text="${student.name}">Jane Doe</span></p>
-      <p><strong>Email:</strong> <span th:text="${student.email}">jane.doe@example.com</span></p>
-      <p><strong>Major:</strong> <span th:text="${student.major}">Computer Science</span></p>
-      <p><strong>Year:</strong> <span th:text="${student.year}">3rd Year</span></p>
-      <button class="edit-profile-btn" onclick="window.location.href='/profile/edit'">Edit Profile</button>
-    </div>
-  </div>
-
-  <!-- Sessions Table -->
-  <div class="table-container">
-    <h2>📅 Upcoming Tutoring Sessions</h2>
-    <table>
-      <thead>
-      <tr>
-        <th>Tutor Name</th>
-        <th>Department</th>
-        <th>Email</th>
-        <th>Date & Time</th>
-        <th>Action</th>
-      </tr>
-      </thead>
-      <tbody>
-      <!-- Dummy static data -->
-      <tr>
-        <td>John Smith</td>
-        <td>Mathematics</td>
-        <td>john.smith@example.com</td>
-        <td>2025-08-01, 9:00 AM - 10:00 AM</td>
-        <td><button class="cancel-btn" onclick="cancelSession(this)">Cancel</button></td>
-      </tr>
-      <tr>
-        <td>Mary Johnson</td>
-        <td>Physics</td>
-        <td>mary.johnson@example.com</td>
-        <td>2025-08-02, 11:00 AM - 12:00 PM</td>
-        <td><button class="cancel-btn" onclick="cancelSession(this)">Cancel</button></td>
-      </tr>
-      </tbody>
-    </table>
-
-    <div class="no-sessions" style="display: none">No upcoming sessions scheduled.</div>
-
-    <a href="/session-booking" class="button mt-20">Book New Session</a>
-  </div>
-</main>
-
-<script>
-  function cancelSession(button) {
-    if (confirm("Are you sure you want to cancel this session?")) {
-      button.closest("tr").remove();
-
-      const tbody = document.querySelector("tbody");
-      if (tbody.children.length === 0) {
-        document.querySelector(".no-sessions").style.display = "block";
+  <head>
+    <title>Student Home</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <style>
+      .profile-card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 40px;
+        max-width: 600px;
       }
-    }
-  }
-</script>
-</body>
+
+      .profile-header {
+        font-size: 24px;
+        margin-bottom: 15px;
+      }
+
+      .profile-info p {
+        margin: 8px 0;
+        color: #444;
+      }
+
+      .edit-profile-btn {
+        background-color: #764ba2;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      .cancel-btn {
+        background: #e74c3c;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: transform 0.2s ease;
+      }
+
+      .cancel-btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .no-sessions {
+        text-align: center;
+        padding: 20px;
+        color: #888;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div th:replace="fragments/header :: site-header"></div>
+
+    <main class="main-content">
+      <!-- Welcome -->
+      <div class="welcome-card">
+        <h1 class="heading-1">Welcome, Student!</h1>
+        <p>Here is your upcoming tutoring sessions.</p>
+        <a th:href="@{/student/profile}" class="link">View Profile</a>
+      </div>
+
+      <!-- Upcoming Sessions -->
+      <section>
+        <div class="table-container">
+          <h2>Upcoming Sessions</h2>
+          <div th:if="${success}" class="mt-20 success-message">
+            <span th:text="${success}"></span>
+          </div>
+          <table class="mt-20" th:if="${!upcomingSessions.isEmpty()}">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Tutor Name</th>
+                <th>Department</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="s : ${upcomingSessions}">
+                <td th:text="${s.date}">2025-08-10</td>
+                <td th:text="${s.timeSlot}">9:00 AM - 10:00 AM</td>
+                <td>
+                  <span th:text="${tutorNames[s.tutorId]}">Tutor Name</span>
+                </td>
+                <td>
+                  <span th:text="${tutorDeptNames[s.tutorId]}">Department</span>
+                </td>
+                <td>
+                  <form th:action="@{/student/cancel-session}" method="post">
+                    <input type="hidden" name="sessionId" th:value="${s.id}" />
+                    <button
+                      class="delete-button size-sm"
+                      type="button"
+                      th:onclick="'confirmDelete(' + ${s.id} + ')'"
+                    >
+                      Cancel
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="no-sessions" th:if="${upcomingSessions.isEmpty()}">
+            No upcoming sessions scheduled.
+          </div>
+          <a th:href="@{/student/book-session}" class="button size-sm mt-20"
+            >Book New Session</a
+          >
+        </div>
+      </section>
+
+      <!-- Past Sessions -->
+      <section style="margin-top: 3rem">
+        <div class="table-container">
+          <h2>Past Sessions</h2>
+          <table th:if="${!pastSessions.isEmpty()}">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Tutor Name</th>
+                <th>Department</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="ps : ${pastSessions}">
+                <td th:text="${ps.date}">2025-08-05</td>
+                <td th:text="${ps.timeSlot}">2:00 PM - 3:00 PM</td>
+                <td>
+                  <span th:text="${tutorNames[ps.tutorId]}">Tutor Name</span>
+                </td>
+                <td>
+                  <span th:text="${tutorDeptNames[ps.tutorId]}"
+                    >Department</span
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="no-sessions" th:if="${pastSessions.isEmpty()}">
+            No past sessions found.
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        window.confirmDelete = function (sessionId) {
+          if (confirm("Are you sure you want to delete this session?")) {
+            document
+              .querySelector(
+                `form[action='/student/cancel-session'] input[value='${sessionId}']`
+              )
+              .closest("form")
+              .submit();
+          }
+        };
+      });
+    </script>
+  </body>
 </html>

@@ -83,8 +83,10 @@
     <main class="main-content">
       <div class="profile-card">
         <h1 class="heading-1">Tutor Profile</h1>
-
-        <form th:action="@{/tutor-profile}" th:object="${user}" method="post">
+        <div th:if="${success}" class="mt-20 success-message">
+          <span th:text="${success}">Operation successful!</span>
+        </div>
+        <form th:action="@{/tutor/profile}" th:object="${user}" method="post">
           <div class="profile-field">
             <label for="firstName">First Name</label>
             <input type="text" th:field="*{firstName}" />

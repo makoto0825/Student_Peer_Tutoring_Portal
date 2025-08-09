@@ -39,7 +39,7 @@
     <div th:replace="fragments/header :: site-header"></div>
     <main class="main-content">
       <div class="form-card">
-        <form th:action="@{/book-session}" method="post">
+        <form th:action="@{/student/book-session}" method="post">
           <h1 class="heading-1">Book a Session</h1>
           <div th:if="${error}" class="error-message" th:text="${error}"></div>
           <div
@@ -93,6 +93,9 @@
 
           <button type="submit" class="button size-sm">Book Session</button>
         </form>
+        <div class="mt-20">
+          <a th:href="@{/student}" class="link">Back to My Sessions</a>
+        </div>
       </div>
     </main>
 
