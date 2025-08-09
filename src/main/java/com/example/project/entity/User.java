@@ -32,7 +32,7 @@ public class User implements UserDetails {
     private String lastName;
 
     @Column(name = "role", nullable = false)
-    private int role = 1; // 1: student, 2: tutor
+    private int role = 1; // 1: student, 2: tutor, 3: admin
 
     @Column(name = "enabled", nullable = false)
     private boolean enabled = true;
@@ -44,15 +44,20 @@ public class User implements UserDetails {
     @JoinColumn(name = "department_id")
     private Department department;
 
+    @Column(name = "verified", nullable = false)
+    private boolean verified = false;
     public User() {}
-
+    
+    // Constructor
     public User(String username, String password, String email, String firstName,
-                String lastName, String description, Department department) {
+                String lastName, String description, Department department, int role) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.role = role;
+        this.verified = (role == 1); // student = verified, tutor = not
         this.description = description;
         this.department = department;
     }
@@ -81,7 +86,16 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+
+        return enabled && (role == 1 || verified); // Students always enabled, tutors must be verified
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
     }
 
     // Getters and Setters

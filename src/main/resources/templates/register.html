@@ -122,15 +122,11 @@
             <label for="departmentId">Department:</label>
             <select id="departmentId" name="departmentId" required>
               <option value="">-- Select --</option>
-              <option value="1">Computer Science</option>
-              <option value="2">Business</option>
-              <option value="3">Mathematics</option>
-              <option value="4">Engineering</option>
-              <option value="5">Health Sciences</option>
-              <option value="6">Arts & Humanities</option>
-              <option value="7">Education</option>
-              <option value="8">Media & Communication</option>
-              <option value="9">Law & Legal Studies</option>
+              <option
+                th:each="d : ${departments}"
+                th:value="${d.id}"
+                th:text="${d.name}"
+              ></option>
             </select>
           </div>
 
@@ -148,10 +144,15 @@
           </div>
         </div>
 
-          <div class="form-group">
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" rows="3" style="resize: none"></textarea>
-          </div>
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <textarea
+            id="description"
+            name="description"
+            rows="3"
+            style="resize: none"
+          ></textarea>
+        </div>
 
         <button type="submit" class="button width-100 mt-20">Register</button>
       </form>

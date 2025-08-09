@@ -6,8 +6,24 @@
       <nav class="nav-container">
         <a href="/" class="logo">Student Peer Tutoring Portal</a>
         <div class="nav-links">
-          <a href="/home">Home</a>
+          <!-- Show Home link based on role if authenticated -->
+          <div
+            th:if="${#authentication.principal != 'anonymousUser'}"
+            th:switch="${#authentication.principal.role}"
+            style="display: flex"
+          >
+            <a th:case="1" th:href="@{/student}">Home</a>
+            <a th:case="2" th:href="@{/tutor}">Home</a>
+            <a th:case="3" th:href="@{/admin}">Home</a>
+            <!-- Fallback -->
+            <a th:case="*}" th:href="@{/home}">Home</a>
+          </div>
           <!-- Show Login/Register only for anonymous users -->
+          <a
+            href="/home"
+            th:if="${#authentication.principal == 'anonymousUser'}"
+            >Home</a
+          >
           <a
             href="/login"
             th:if="${#authentication.principal == 'anonymousUser'}"

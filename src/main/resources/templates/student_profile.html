@@ -82,11 +82,16 @@
     <div th:replace="fragments/header :: site-header"></div>
     <main class="main-content">
       <div class="profile-card">
-        <h1 class="heading-1">Tutor Profile</h1>
+        <h1 class="heading-1">Student Profile</h1>
         <div th:if="${success}" class="mt-20 success-message">
-          <span th:text="${success}">Operation successful!</span>
+          <span th:text="${success}"></span>
         </div>
-        <form th:action="@{/tutor/profile}" th:object="${user}" method="post">
+        <form
+          th:action="@{/student/profile}"
+          th:object="${user}"
+          method="post"
+          class="mt-20"
+        >
           <div class="profile-field">
             <label for="firstName">First Name</label>
             <input type="text" th:field="*{firstName}" />
@@ -115,7 +120,7 @@
           <button type="submit" class="button size-sm">Save Changes</button>
         </form>
         <div class="mt-20">
-          <a th:href="@{/tutor}" class="link">View My Sessions</a>
+          <a th:href="@{/student}" class="link">View My Sessions</a>
         </div>
       </div>
     </main>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Edit Profile</title>
+</head>
+<body>
+<h2>Edit Profile</h2>
+<form th:action="@{/profile/edit}" th:object="${student}" method="post">
+  <label>Name:</label>
+  <input type="text" th:field="*{name}" /><br/>
+
+  <label>Major:</label>
+  <input type="text" th:field="*{major}" /><br/>
+
+  <label>Year:</label>
+  <input type="text" th:field="*{year}" /><br/>
+
+  <button type="submit">Save</button>
+</form>
+</body>
+</html>
