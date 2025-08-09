@@ -1,6 +1,7 @@
 package com.example.project.config;
 
 import com.example.project.service.CustomUserDetailsService;
+import com.example.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,11 @@ public class SecurityConfig {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    private final UserService userService;
+
+    public SecurityConfig(UserService userService) {
+        this.userService = userService;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -35,7 +41,15 @@ public class SecurityConfig {
             )
             .formLogin((form) -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/dashboard", true)
+                .successHandler((request, response, authentication) -> {
+                    var user = userService.findByUsername(authentication.getName());
+                    switch (user.getRole()) { // 1=student, 2=tutor, 3=admin
+                        case 1 -> response.sendRedirect("/student");
+                        case 2 -> response.sendRedirect("/tutor");
+                        case 3 -> response.sendRedirect("/admin");
+                        default -> response.sendRedirect("/home");
+                    }
+                })
                 .permitAll()
             )
             .logout((logout) -> logout

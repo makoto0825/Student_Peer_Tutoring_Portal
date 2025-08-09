@@ -32,7 +32,7 @@ public class User implements UserDetails {
     private String lastName;
 
     @Column(name = "role", nullable = false)
-    private int role = 1; // 1: student, 2: tutor
+    private int role = 1; // 1: student, 2: tutor, 3: admin
 
     @Column(name = "enabled", nullable = false)
     private boolean enabled = true;
