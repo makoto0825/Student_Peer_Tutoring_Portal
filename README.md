@@ -50,11 +50,19 @@ mvn clean install
 ### Public
 
 - **Home** — `GET /home`  
-  _Controller: `HomeController` → `home.html`_
+  _Controller: `Home
+Controller` → `home.html`_
+  <img width="1215" height="587" alt="Screenshot 2025-08-09 at 14 41 27" src="https://github.com/user-attachments/assets/0ca67a43-92aa-41bf-9875-b8bc5a977035" />
+  
 - **Login** — `GET /login`  
   _Controller: `HomeController` → `login.html`_
+
+  <img width="607" height="520" alt="Screenshot 2025-08-09 at 14 42 31" src="https://github.com/user-attachments/assets/f305b078-79ee-4b89-a811-ea125f95a71f" />
+
 - **Register** — `GET /register`, `POST /register`  
   _Controller: `UserController` → `register.html`_
+  <img width="702" height="726" alt="Screenshot 2025-08-09 at 14 43 16" src="https://github.com/user-attachments/assets/8de21a4b-9b9d-4ad8-a17c-9b472505e14f" />
+
 - **Register Success** — `GET /register-success`  
   _Controller: `UserController` → `register_success.html`_
 - **Root Redirect** — `GET /` → `redirect:/home`
@@ -63,9 +71,16 @@ mvn clean install
 
 - **Dashboard** — `GET /student` → `student.html`  
   Upcoming/past sessions with tutor names & departments
-- **Profile** — `GET /student/profile`, `POST /student/profile` → `student_profile.html`
+  <img width="1221" height="726" alt="Screenshot 2025-08-09 at 14 43 57" src="https://github.com/user-attachments/assets/c80cab3c-629d-41df-a289-e37c9acd4bff" />
+
+- **Profile** — `GET /student/profile`, `POST /student/profil![Uploading Screenshot 2025-08-09 at 14.44.32.png…]()
+e` → `student_profile.html`
+  <img width="1221" height="726" alt="Screenshot 2025-08-09 at 14 44 50" src="https://github.com/user-attachments/assets/0ff4586d-7bdb-4a89-b9ae-84bc680a139a" />
+  
 - **Book Session** — `GET /student/book-session`, `POST /student/book-session` → `session-booking.html`  
   Department/tutor filters + unbooked sessions
+  <img width="690" height="506" alt="Screenshot 2025-08-09 at 14 45 14" src="https://github.com/user-attachments/assets/87dad324-8945-4f1e-94bc-b4aaad036911" />
+
 - **Cancel Session** — `POST /student/cancel-session`  
   (Only future sessions; server-validated)
 
@@ -73,16 +88,25 @@ mvn clean install
 
 - **Dashboard** — `GET /tutor` → `tutor.html`  
   Upcoming (today or later) + past (booked) sessions, student names
+  <img width="1213" height="731" alt="Screenshot 2025-08-09 at 14 46 47" src="https://github.com/user-attachments/assets/fd981f97-7d7c-4631-a956-7c22798ad3cd" />
+
 - **Create Session** — `POST /tutor/session`  
   (Add open time slots: date + timeSlot)
+
+  <img width="329" height="259" alt="Screenshot 2025-08-09 at 14 47 12" src="https://github.com/user-attachments/assets/038a004e-1a0c-44b9-9ba7-3c16347d7b34" />
+
 - **Delete Session** — `POST /tutor/session/delete`  
   (Only upcoming sessions)
 - **Profile** — `GET /tutor/profile`, `POST /tutor/profile` → `tutor-profile.html`
+  <img width="1004" height="620" alt="Screenshot 2025-08-09 at 14 48 50" src="https://github.com/user-attachments/assets/dd923496-ef1a-4cfb-bee2-089aa1fe8d14" />
+
 
 ### Admin
 
 - **Admin Panel** — `GET /admin` → `admin.html`  
   Lists **pending tutors** (role=2, verified=false)
+  <img width="1217" height="349" alt="Screenshot 2025-08-09 at 14 48 03" src="https://github.com/user-attachments/assets/d5dc9673-00fb-4970-8529-10001e0889d0" />
+
 - **Verify Tutor** — `POST /admin/verify/{id}`
 - **Deny Tutor** — `POST /admin/deny/{id}` (deletes unverified tutor)
 
