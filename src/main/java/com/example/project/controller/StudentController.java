@@ -48,13 +48,14 @@ public class StudentController {
         // Get All sessions for this student
         List<Session> allSessions = sessionService.getStudentSessions(student.getId());
 
-        // Separate into upcoming and past
+        // Separate into upcoming and past and current date
+        LocalDate today = LocalDate.now();
         List<Session> upcomingSessions = allSessions.stream()
-                .filter(session -> session.getDate().isAfter(LocalDate.now()))
+                .filter(session -> !session.getDate().isBefore(today))
                 .collect(Collectors.toList());
 
         List<Session> pastSessions = allSessions.stream()
-                .filter(session -> session.getDate().isBefore(LocalDate.now()))
+                .filter(session -> session.getDate().isBefore(today))
                 .collect(Collectors.toList());
         
         // Map tutor names for display
