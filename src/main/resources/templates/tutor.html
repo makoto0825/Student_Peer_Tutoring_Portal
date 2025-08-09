@@ -82,6 +82,7 @@
       <div class="welcome-card">
         <h1 class="heading-1">Welcome, Tutor!</h1>
         <p>Manage your tutoring sessions below.</p>
+        <a th:href="@{/tutor-profile}" class="link">View Profile</a>
         <div th:if="${error}" class="error-message" th:text="${error}"></div>
         <div
           th:if="${success}"
@@ -114,9 +115,9 @@
                 <td th:text="${s.date}">2025-08-10</td>
                 <td th:text="${s.timeSlot}">9:00 AM - 10:00 AM</td>
                 <td
-                  th:text="${s.studentId != null ? studentNames[s.studentId] : '-'}"
+                  th:text="${s.studentId != null ? studentNames[s.studentId] : 'not booked'}"
                 >
-                  -
+                  not booked
                 </td>
                 <td>
                   <form th:action="@{/tutor/session/delete}" method="post">

@@ -112,25 +112,8 @@
 
           <button type="submit" class="button size-sm">Save Changes</button>
         </form>
-
-        <!-- Available Sessions -->
-        <div class="sessions-container">
-          <h2>Available Sessions</h2>
-          <ul class="session-list" id="sessionList">
-            <!-- Dummy data -->
-            <li>
-              2025-08-01 09:00 AM - 10:00 AM
-              <button class="remove-btn" onclick="removeSession(this)">
-                Remove
-              </button>
-            </li>
-            <li>
-              2025-08-03 02:00 PM - 03:00 PM
-              <button class="remove-btn" onclick="removeSession(this)">
-                Remove
-              </button>
-            </li>
-          </ul>
+        <div class="mt-20">
+          <a th:href="@{/tutor}" class="link">View My Sessions</a>
         </div>
       </div>
     </main>
