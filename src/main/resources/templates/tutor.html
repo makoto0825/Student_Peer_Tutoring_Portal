@@ -84,11 +84,6 @@
         <p>Manage your tutoring sessions below.</p>
         <a th:href="@{/tutor/profile}" class="link">View Profile</a>
         <div th:if="${error}" class="error-message" th:text="${error}"></div>
-        <div
-          th:if="${success}"
-          class="success-message"
-          th:text="${success}"
-        ></div>
       </div>
 
       <!-- Upcoming Sessions -->
@@ -98,6 +93,11 @@
           <button class="button size-sm" onclick="openModal()">
             Add Session Slots
           </button>
+          <div
+            th:if="${success}"
+            class="success-message mt-20"
+            th:text="${success}"
+          ></div>
           <table class="mt-20" th:if="${!upcomingSessions.isEmpty()}">
             <thead>
               <tr>
