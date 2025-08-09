@@ -65,14 +65,14 @@
       <!-- Welcome -->
       <div class="welcome-card">
         <h1 class="heading-1">Welcome, Student!</h1>
-        <p>Here is your upcoming tutoring sessions.</p>
+        <p>Here is your tutoring sessions.</p>
         <a th:href="@{/student/profile}" class="link">View Profile</a>
       </div>
 
       <!-- Upcoming Sessions -->
       <section>
         <div class="table-container">
-          <h2>Upcoming Sessions</h2>
+          <h2>Today + Upcoming Sessions</h2>
           <div th:if="${success}" class="mt-20 success-message">
             <span th:text="${success}"></span>
           </div>

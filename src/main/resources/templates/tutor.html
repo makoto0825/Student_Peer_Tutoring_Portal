@@ -81,7 +81,7 @@
       <!-- Welcome section -->
       <div class="welcome-card">
         <h1 class="heading-1">Welcome, Tutor!</h1>
-        <p>Manage your tutoring sessions below.</p>
+        <p>See your tutoring sessions below.</p>
         <a th:href="@{/tutor/profile}" class="link">View Profile</a>
         <div th:if="${error}" class="error-message" th:text="${error}"></div>
       </div>
@@ -89,7 +89,7 @@
       <!-- Upcoming Sessions -->
       <section>
         <div class="table-container">
-          <h2>Upcoming Sessions</h2>
+          <h2>Today + Upcoming Sessions</h2>
           <button class="button size-sm" onclick="openModal()">
             Add Session Slots
           </button>
